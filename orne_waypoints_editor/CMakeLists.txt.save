@@ -6,7 +6,7 @@ set(CMAKE_CXX_FLAGS "-march=native -O2 -std=c++11")
 set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS   "-march=native -O2")
 set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "-march=native -O2")
 set(CMAKE_EXE_LINKER_FLAGS "-march=native -O2")
-set(ORNE_WAYPOINYS_NAV_PATH "./src/")
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -192,13 +192,6 @@ target_link_libraries(orne_suspends_editor
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-install(TARGETS orne_suspends_editor orne_waypoints_editor
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-
 install(DIRECTORY
    launch
    src

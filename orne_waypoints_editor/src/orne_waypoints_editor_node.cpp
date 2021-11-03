@@ -173,7 +173,8 @@ public:
             marker.lifetime = ros::Duration(0.5);
             marker.pose.position = waypoints_.at(i);
             marker.pose.position.z = 3.0;
-            marker.scale.z = 2.0;
+            //marker.scale.z = 2.0;
+            marker.scale.z = .4;
             marker.color.r = 0.0;
             marker.color.g = 0.0;
             marker.color.b = 0.0;
@@ -193,7 +194,8 @@ public:
             marker.lifetime = ros::Duration(0.5);
             marker.pose = finish_pose_.pose;
             marker.pose.position.z = 3.0;
-            marker.scale.z = 2.0;
+            //marker.scale.z = 2.0;
+            marker.scale.z = .4;
             marker.color.r = 0.0;
             marker.color.g = 0.0;
             marker.color.b = 0.0;

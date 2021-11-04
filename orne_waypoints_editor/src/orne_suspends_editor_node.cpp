@@ -425,12 +425,16 @@ public:
     Marker makeWpMarker(){
         Marker marker;
         marker.type = Marker::SPHERE;
-        marker.scale.x = 0.8;
-        marker.scale.y = 0.8;
-        marker.scale.z = 0.8;
+//         marker.scale.x = 0.8;
+//         marker.scale.y = 0.8;
+//         marker.scale.z = 0.8;
+        marker.scale.x = 0.1;
+        marker.scale.y = 0.1;
+        marker.scale.z = 0.1;
         marker.color.r = 0.08;
         marker.color.g = 0.0;
-        marker.color.b = 0.8;
+//         marker.color.b = 0.8;
+        marker.color.b = 0.2;
         marker.color.a = 0.5;
 
         return marker;
@@ -514,7 +518,8 @@ public:
         int_marker.controls.clear();
         int_marker.header.frame_id = world_frame_;
         int_marker.pose.position = point;
-        int_marker.scale = 1;
+//         int_marker.scale = 1;
+        int_marker.scale = 0.3;
         int_marker.name = name;
         int_marker.description = name;
 
@@ -529,7 +534,8 @@ public:
         int_marker.controls.clear();
         int_marker.header.frame_id = world_frame_;
         int_marker.pose = pose;
-        int_marker.scale = 1;
+//         int_marker.scale = 1;
+        int_marker.scale = 0.3;
         int_marker.name = name;
         int_marker.description = name;
 
@@ -544,7 +550,8 @@ public:
         int_marker.controls.clear();
         int_marker.header.frame_id = world_frame_;
         int_marker.pose = pose;
-        int_marker.scale = 1;
+//         int_marker.scale = 1;
+        int_marker.scale = 0.3;
         int_marker.name = name;
         int_marker.description = name;
 

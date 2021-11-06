@@ -425,12 +425,12 @@ public:
     Marker makeWpMarker(){
         Marker marker;
         marker.type = Marker::SPHERE;
-//         marker.scale.x = 0.8;
-//         marker.scale.y = 0.8;
-//         marker.scale.z = 0.8;
-        marker.scale.x = 0.1;
-        marker.scale.y = 0.1;
-        marker.scale.z = 0.1;
+        marker.scale.x = 0.8;
+        marker.scale.y = 0.8;
+        marker.scale.z = 0.8;
+//         marker.scale.x = 0.1;
+//         marker.scale.y = 0.1;
+//         marker.scale.z = 0.1;
         marker.color.r = 0.08;
         marker.color.g = 0.0;
 //         marker.color.b = 0.8;

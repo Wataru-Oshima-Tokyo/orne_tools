@@ -110,10 +110,36 @@ public:
     void initMenu(){
         interactive_markers::MenuHandler::EntryHandle wp_delete_menu_handler = wp_menu_handler_.insert("delete", boost::bind(&WaypointsEditor::wpDeleteCb, this, _1));
         interactive_markers::MenuHandler::EntryHandle wp_insert_menu_handler = wp_menu_handler_.insert("Insert");
+        interactive_markers::MenuHandler::EntryHandle wp_action_menu_handler = wp_menu_handler_.insert("setAction");
 
         interactive_markers::MenuHandler::EntryHandle wp_mode = wp_menu_handler_.insert(wp_insert_menu_handler, "Prev", boost::bind(&WaypointsEditor::wpInsertCb, this, _1));
         wp_mode = wp_menu_handler_.insert(wp_insert_menu_handler, "Next", boost::bind(&WaypointsEditor::wpInsertCb, this, _1));
+
+
+        //set action
+        interactive_markers::MenuHandler::EntryHandle action_mode = wp_menu_handler_.insert(wp_action_menu_handler, "Pass Through", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        wp_menu_handler_.insert(wp_action_menu_handler, "Look Up", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        wp_menu_handler_.insert(wp_action_menu_handler, "Look Down", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        wp_menu_handler_.insert(wp_action_menu_handler, "Take Photo", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        wp_menu_handler_.insert(wp_action_menu_handler, "Talk", boost::bind(&WaypointsEditor::actionCb, this, _1));
     }
+
+    void actionCb(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
+        if(feedback->menu_entry_id == 6){
+            ROS_INFO_STREAM("Pass Through");
+        }else if(feedback->menu_entry_id == 7){
+            ROS_INFO_STREAM("Look Up");
+        }else if(feedback->menu_entry_id == 8){
+            ROS_INFO_STREAM("Look Down");
+        }else if(feedback->menu_entry_id == 9){
+            ROS_INFO_STREAM("Take Photo");
+        }else if(feedback->menu_entry_id == 10){
+            ROS_INFO_STREAM("Talk");
+        }
+    }
+
+    
+
 
     void wpDeleteCb(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
         ROS_INFO_STREAM("delete : " << feedback->marker_name);
@@ -326,7 +352,7 @@ public:
                     (*wp_node)[i]["point"]["x"] >> point.x;
                     (*wp_node)[i]["point"]["y"] >> point.y;
                     (*wp_node)[i]["point"]["z"] >> point.z;
-                    (*wp_node)[i]["action"]["A"] >> action;
+                    // (*wp_node)[i]["action"]["A"] >> action;
                     waypoints_.push_back(point);
                     //I think here I need to push_back the action below
                     

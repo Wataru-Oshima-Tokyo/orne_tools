@@ -322,12 +322,14 @@ public:
             if(wp_node != NULL){
                 for(int i=0; i < wp_node->size(); i++){
                     geometry_msgs::Point point;
-
+                    std::string action;
                     (*wp_node)[i]["point"]["x"] >> point.x;
                     (*wp_node)[i]["point"]["y"] >> point.y;
                     (*wp_node)[i]["point"]["z"] >> point.z;
-
+                    (*wp_node)[i]["action"]["A"] >> action;
                     waypoints_.push_back(point);
+                    //I think here I need to push_back the action below
+                    
                 }
             }else{
                 return false;
@@ -423,6 +425,8 @@ public:
                 ofs << "        x: " << waypoints_[i].x << std::endl;
                 ofs << "        y: " << waypoints_[i].y << std::endl;
                 ofs << "        z: " << waypoints_[i].z << std::endl;
+                ofs << "    " << "- action:" << std::endl;
+                ofs << "        A: " << "look up"  << std::endl;
             }
             
             ofs << "finish_pose:"           << std::endl;
@@ -440,6 +444,8 @@ public:
             ofs << "            y: "        << finish_pose_.pose.orientation.y << std::endl;
             ofs << "            z: "        << finish_pose_.pose.orientation.z << std::endl;
             ofs << "            w: "        << finish_pose_.pose.orientation.w << std::endl;
+            ofs << "    action:"            << std::endl;
+            ofs << "            A: "        << "Laydown" << std::endl;
 
             ofs.close();
 

@@ -159,11 +159,11 @@ public:
         int wp_num= std::stoi(feedback->marker_name);
         ROS_INFO_STREAM("insert : " << feedback->menu_entry_id);
         geometry_msgs::Pose p = feedback->pose;
-        if (feedback->menu_entry_id == 3){
+        if (feedback->menu_entry_id == 4){
             p.position.x -= 1.0;
             waypoints_.insert(waypoints_.begin() + wp_num, p.position);
 
-        } else if (feedback->menu_entry_id == 4) {
+        } else if (feedback->menu_entry_id == 5) {
             p.position.x += + 1.0;
             waypoints_.insert(waypoints_.begin() + wp_num + 1, p.position);
         }

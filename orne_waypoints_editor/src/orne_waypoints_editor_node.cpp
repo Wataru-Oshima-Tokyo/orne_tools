@@ -412,8 +412,8 @@ public:
         return true;
     }
 
-    void waypointsVizCallback(const geometry_msgs::PoseStamped &msg){
-        orne_waypoint_editor::Waypoint _wp;
+    void waypointsVizCallback(const geometry_msgs::PointStamped &msg){
+        orne_waypoints_editor::Waypoint _wp;
         _wp.x = msg.point.x;
         _wp.y = msg.point.y;
         _wp.z = msg.point.z;

@@ -413,10 +413,10 @@ public:
 
     void waypointsVizCallback(const orne_waypoints_editor::Waypoint &msg){
         ROS_INFO_STREAM("point = " << msg);
-        makeWpInteractiveMarker(std::to_string(waypoints_.size()), msg.point);
+        makeWpInteractiveMarker(std::to_string(waypoints_.size()), msg);
         server->applyChanges();
 
-        waypoints_.push_back(msg.point);
+        waypoints_.push_back(msg);
     }
 
     void waypointsJoyCallback(const sensor_msgs::Joy &msg) {

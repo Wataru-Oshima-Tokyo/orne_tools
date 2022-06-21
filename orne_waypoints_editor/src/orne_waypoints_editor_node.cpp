@@ -264,7 +264,7 @@ public:
         return msg.controls.back();
     }
 
-    void makeWpInteractiveMarker(std::string name, geometry_msgs::Point point){
+    void makeWpInteractiveMarker(std::string name, orne_waypoints_editor::Waypoint point){
         InteractiveMarker int_marker;
         int_marker.controls.clear();
         int_marker.header.frame_id = world_frame_;
@@ -347,7 +347,7 @@ public:
 
             if(wp_node != NULL){
                 for(int i=0; i < wp_node->size(); i++){
-                    geometry_msgs::Point point;
+                    orne_waypoints_editor::Waypoint point;
                     std::string action;
                     (*wp_node)[i]["point"]["x"] >> point.x;
                     (*wp_node)[i]["point"]["y"] >> point.y;
@@ -405,7 +405,7 @@ public:
             tf::StampedTransform robot_gl;
             try{
                 tf_listener_.lookupTransform(world_frame_, robot_frame_, msg.header.stamp, robot_gl);
-                geometry_msgs::Point point;
+                orne_waypoints_editor::Waypoint point;
                 point.x = robot_gl.getOrigin().x();
                 point.y = robot_gl.getOrigin().y();
                 point.z = robot_gl.getOrigin().z();
@@ -497,7 +497,7 @@ private:
     ros::Subscriber waypoints_joy_sub_;
     ros::Subscriber finish_pose_sub_;
     ros::Publisher marker_description_pub_;
-    std::vector<geometry_msgs::Point> waypoints_;
+    std::vector<orne_waypoints_editor::Waypoint> waypoints_;
     geometry_msgs::PoseStamped finish_pose_;
     visualization_msgs::MarkerArray marker_description_;
     tf::TransformListener tf_listener_;

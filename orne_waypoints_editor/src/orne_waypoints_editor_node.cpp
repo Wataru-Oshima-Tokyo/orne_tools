@@ -122,21 +122,40 @@ public:
         interactive_markers::MenuHandler::EntryHandle action_mode = wp_menu_handler_.insert(wp_action_menu_handler, "Pass Through", boost::bind(&WaypointsEditor::actionCb, this, _1));
         wp_menu_handler_.insert(wp_action_menu_handler, "Look Up", boost::bind(&WaypointsEditor::actionCb, this, _1));
         wp_menu_handler_.insert(wp_action_menu_handler, "Look Down", boost::bind(&WaypointsEditor::actionCb, this, _1));
-        wp_menu_handler_.insert(wp_action_menu_handler, "Take Photo", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        wp_menu_handler_.insert(wp_action_menu_handler, "Look Left", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        wp_menu_handler_.insert(wp_action_menu_handler, "Look Right", boost::bind(&WaypointsEditor::actionCb, this, _1));
         wp_menu_handler_.insert(wp_action_menu_handler, "Talk", boost::bind(&WaypointsEditor::actionCb, this, _1));
     }
 
     void actionCb(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
+        ROS_INFO_STREAM("menu_entry_id : " << feedback->menu_entry_id);
+        int wp_num= std::stoi(feedback->marker_name);
+        ROS_INFO_STREAM("set action : " << feedback->menu_entry_id);
+
         if(feedback->menu_entry_id == 6){
             ROS_INFO_STREAM("Pass Through");
+            waypoints_.at(wp_num).action = "passthrough";
+            waypoints_.at(wp_num).duration = 0;
         }else if(feedback->menu_entry_id == 7){
             ROS_INFO_STREAM("Look Up");
+            waypoints_.at(wp_num).action = "lookup";
+            waypoints_.at(wp_num).duration = 5;
         }else if(feedback->menu_entry_id == 8){
             ROS_INFO_STREAM("Look Down");
+            waypoints_.at(wp_num).action = "lookdown";
+            waypoints_.at(wp_num).duration = 5;
         }else if(feedback->menu_entry_id == 9){
-            ROS_INFO_STREAM("Take Photo");
+            ROS_INFO_STREAM("Look Left");
+            waypoints_.at(wp_num).action = "lookleft";
+            waypoints_.at(wp_num).duration = 5;
         }else if(feedback->menu_entry_id == 10){
+            ROS_INFO_STREAM("Look Right");
+            waypoints_.at(wp_num).action = "lookright";
+            waypoints_.at(wp_num).duration = 5;
+        }else if(feedback->menu_entry_id == 11){
             ROS_INFO_STREAM("Talk");
+            waypoints_.at(wp_num).action = "talk";
+            waypoints_.at(wp_num).duration = 5;
         }
     }
 
@@ -371,9 +390,7 @@ public:
                     (*wp_node)[i]["point"]["x"] >> point.x;
                     (*wp_node)[i]["point"]["y"] >> point.y;
                     (*wp_node)[i]["point"]["z"] >> point.z;
-                    ROS_INFO_STREAM("action[a]");
                     (*wp_node)[i]["point"]["a"] >> point.action;
-                    ROS_INFO_STREAM("action[d]");
                     (*wp_node)[i]["point"]["d"] >> point.duration;
                     waypoints_.push_back(point);
                     //I think here I need to push_back the action below
@@ -479,7 +496,6 @@ public:
                 ofs << "        x: " << waypoints_[i].x << std::endl;
                 ofs << "        y: " << waypoints_[i].y << std::endl;
                 ofs << "        z: " << waypoints_[i].z << std::endl;
-                ofs << "    " << "- action:" << std::endl;
                 ofs << "        a: " << "passthrough"  << std::endl;
                 ofs << "        d: " << 0  << std::endl;
             }

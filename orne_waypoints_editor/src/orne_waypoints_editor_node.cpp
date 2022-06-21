@@ -103,7 +103,7 @@ public:
         if (feedback->marker_name == "finish_pose") {
             finish_pose_.pose = feedback->pose;
         } else {
-          waypoints_.at(std::stoi(feedback->marker_name)) = feedback->pose.position;
+          waypoints_.at(std::stoi(feedback->marker_name)).x = feedback->pose.position.x;
         }
     }
 

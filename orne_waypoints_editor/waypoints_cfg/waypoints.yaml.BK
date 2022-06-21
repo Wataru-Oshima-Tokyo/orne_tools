@@ -3,9 +3,6 @@ waypoints:
         x: 0.490662
         y: 1.35902
         z: -0.000262498
-    - action:
-        a: passthrough
-        d: 0
 finish_pose:
     header:
         seq: 0

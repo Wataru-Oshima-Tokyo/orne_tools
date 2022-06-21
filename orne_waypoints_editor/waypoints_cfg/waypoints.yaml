@@ -1,9 +1,9 @@
 waypoints:
     - point:
-        x: 0.490662
-        y: 1.35902
+        x: 1.18793
+        y: 0.0465684
         z: -0.000262498
-        a: "passthrough"
+        a: passthrough
         d: 0
 finish_pose:
     header:

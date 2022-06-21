@@ -372,9 +372,9 @@ public:
                     (*wp_node)[i]["point"]["y"] >> point.y;
                     (*wp_node)[i]["point"]["z"] >> point.z;
                     ROS_INFO_STREAM("action[a]");
-                    (*wp_node)[i]["action"]["a"] >> point.action;
+                    (*wp_node)[i]["point"]["a"] >> point.action;
                     ROS_INFO_STREAM("action[d]");
-                    (*wp_node)[i]["action"]["d"] >> point.duration;
+                    (*wp_node)[i]["point"]["d"] >> point.duration;
                     waypoints_.push_back(point);
                     //I think here I need to push_back the action below
                     

@@ -412,12 +412,18 @@ public:
         return true;
     }
 
-    void waypointsVizCallback(const orne_waypoints_editor::Waypoint &msg){
+    void waypointsVizCallback(const geometry_msgs::PoseStamped &msg){
+        orne_waypoint_editor::Waypoint _wp;
+        _wp.x = msg.point.x;
+        _wp.y = msg.point.y;
+        _wp.z = msg.point.z;
+        _wp.action = "passthrough";
+        _wp.duration = 0;
         ROS_INFO_STREAM("point = " << msg);
-        makeWpInteractiveMarker(std::to_string(waypoints_.size()), msg);
+        makeWpInteractiveMarker(std::to_string(waypoints_.size()), _wp);
         server->applyChanges();
 
-        waypoints_.push_back(msg);
+        waypoints_.push_back(_wp);
     }
 
     void waypointsJoyCallback(const sensor_msgs::Joy &msg) {

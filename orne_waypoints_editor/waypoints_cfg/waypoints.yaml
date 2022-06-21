@@ -4,7 +4,7 @@ waypoints:
         y: 1.35902
         z: -0.000262498
     - action:
-        a: passthrough
+        a: "passthrough"
         d: 0
 finish_pose:
     header:

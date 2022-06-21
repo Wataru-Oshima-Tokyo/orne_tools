@@ -104,6 +104,8 @@ public:
             finish_pose_.pose = feedback->pose;
         } else {
           waypoints_.at(std::stoi(feedback->marker_name)).x = feedback->pose.position.x;
+          waypoints_.at(std::stoi(feedback->marker_name)).y = feedback->pose.position.y;
+          waypoints_.at(std::stoi(feedback->marker_name)).z = feedback->pose.position.z;
         }
     }
 
@@ -147,7 +149,9 @@ public:
         waypoints_.erase(waypoints_.begin() + wp_num);
         for (int i=wp_num; i<waypoints_.size(); i++) {
             geometry_msgs::Pose p;
-            p.position = waypoints_.at(i);
+            p.position.x = waypoints_.at(i).x;
+            p.position.y = waypoints_.at(i).y;
+            p.position.z = waypoints_.at(i).z;
             server->setPose(std::to_string(i), p);
         }
         server->erase(std::to_string((int)waypoints_.size()));
@@ -159,18 +163,31 @@ public:
         int wp_num= std::stoi(feedback->marker_name);
         ROS_INFO_STREAM("insert : " << feedback->menu_entry_id);
         geometry_msgs::Pose p = feedback->pose;
+        orne_waypoints_editor::Waypoint wp;
         if (feedback->menu_entry_id == 4){
             p.position.x -= 1.0;
-            waypoints_.insert(waypoints_.begin() + wp_num, p.position);
+            wp.x = p.position.x;
+            wp.y = p.position.y;
+            wp.z = p.position.z;
+            wp.action = "passthrough";
+            wp.duration =0;
+            waypoints_.insert(waypoints_.begin() + wp_num, wp);
 
         } else if (feedback->menu_entry_id == 5) {
             p.position.x += + 1.0;
-            waypoints_.insert(waypoints_.begin() + wp_num + 1, p.position);
+            wp.x = p.position.x;
+            wp.y = p.position.y;
+            wp.z = p.position.z;
+            wp.action = "passthrough";
+            wp.duration =0;
+            waypoints_.insert(waypoints_.begin() + wp_num + 1, wp);
         }
 
         for (int i=wp_num; i<waypoints_.size()-1; i++) {
             geometry_msgs::Pose p;
-            p.position = waypoints_.at(i);
+            p.position.x = waypoints_.at(i).x;
+            p.position.y = waypoints_.at(i).y;
+            p.position.z = waypoints_.at(i).z;
             server->setPose(std::to_string(i), p);
         }
         makeWpInteractiveMarker(std::to_string(waypoints_.size()-1), waypoints_.at(waypoints_.size()-1));

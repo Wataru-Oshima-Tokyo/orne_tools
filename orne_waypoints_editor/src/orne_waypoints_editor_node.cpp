@@ -368,12 +368,11 @@ public:
             if(wp_node != NULL){
                 for(int i=0; i < wp_node->size(); i++){
                     orne_waypoints_editor::Waypoint point;
-                    std::string action;
                     (*wp_node)[i]["point"]["x"] >> point.x;
                     (*wp_node)[i]["point"]["y"] >> point.y;
                     (*wp_node)[i]["point"]["z"] >> point.z;
                     (*wp_node)[i]["action"]["a"] >> point.action;
-                    (*wp_node)[i]["duration"]["d"] >> point.duration;
+                    (*wp_node)[i]["action"]["d"] >> point.duration;
                     waypoints_.push_back(point);
                     //I think here I need to push_back the action below
                     

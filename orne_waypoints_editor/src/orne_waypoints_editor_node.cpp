@@ -156,6 +156,8 @@ public:
             ROS_INFO_STREAM("Talk");
             waypoints_.at(wp_num).action = "talk";
             waypoints_.at(wp_num).duration = 5;
+        }else{
+            
         }
     }
 

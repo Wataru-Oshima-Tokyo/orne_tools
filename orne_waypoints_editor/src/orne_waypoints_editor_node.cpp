@@ -496,8 +496,8 @@ public:
                 ofs << "        x: " << waypoints_[i].x << std::endl;
                 ofs << "        y: " << waypoints_[i].y << std::endl;
                 ofs << "        z: " << waypoints_[i].z << std::endl;
-                ofs << "        a: " << "passthrough"  << std::endl;
-                ofs << "        d: " << 0  << std::endl;
+                ofs << "        a: " << waypoints_[i].action  << std::endl;
+                ofs << "        d: " << waypoints_[i].duration  << std::endl;
             }
             
             ofs << "finish_pose:"           << std::endl;
@@ -515,8 +515,6 @@ public:
             ofs << "            y: "        << finish_pose_.pose.orientation.y << std::endl;
             ofs << "            z: "        << finish_pose_.pose.orientation.z << std::endl;
             ofs << "            w: "        << finish_pose_.pose.orientation.w << std::endl;
-            ofs << "    action:"            << std::endl;
-            ofs << "            A: "        << "Laydown" << std::endl;
 
             ofs.close();
 

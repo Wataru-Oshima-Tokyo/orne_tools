@@ -4,7 +4,7 @@ waypoints:
         y: 0.0465684
         z: -0.000262498
         a: passthrough
-        d: 0
+        d: 1
 finish_pose:
     header:
         seq: 0

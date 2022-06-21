@@ -214,7 +214,8 @@ public:
             marker.ns = name.str();
             marker.id = i;
             marker.lifetime = ros::Duration(0.5);
-            marker.pose.position = waypoints_.at(i);
+            marker.pose.position.x = waypoints_.at(i).x;
+            marker.pose.position.y = waypoints_.at(i).y;
             marker.pose.position.z = 3.0;
             //marker.scale.z = 2.0;
             marker.scale.z = 1.0;
@@ -285,7 +286,9 @@ public:
         InteractiveMarker int_marker;
         int_marker.controls.clear();
         int_marker.header.frame_id = world_frame_;
-        int_marker.pose.position = point;
+        int_marker.pose.position.x = point.x;
+        int_marker.pose.position.y = point.y;
+        int_marker.pose.position.z = point.z;
         int_marker.scale = 1;
         int_marker.name = name;
         int_marker.description = name;
@@ -408,7 +411,7 @@ public:
         return true;
     }
 
-    void waypointsVizCallback(const geometry_msgs::PointStamped &msg){
+    void waypointsVizCallback(const orne_waypoints_editor::Waypoint &msg){
         ROS_INFO_STREAM("point = " << msg);
         makeWpInteractiveMarker(std::to_string(waypoints_.size()), msg.point);
         server->applyChanges();

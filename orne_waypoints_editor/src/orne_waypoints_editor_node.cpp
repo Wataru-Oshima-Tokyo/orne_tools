@@ -11,7 +11,7 @@
 #include <visualization_msgs/InteractiveMarker.h>
 #include <visualization_msgs/InteractiveMarkerUpdate.h>
 #include <std_msgs/String.h>
-
+#include "orne_waypoints_editor/Waypoint.h"
 #include <std_srvs/Trigger.h>
 
 #include <yaml-cpp/yaml.h>
@@ -352,7 +352,7 @@ public:
                     (*wp_node)[i]["point"]["x"] >> point.x;
                     (*wp_node)[i]["point"]["y"] >> point.y;
                     (*wp_node)[i]["point"]["z"] >> point.z;
-                    // (*wp_node)[i]["action"]["A"] >> action;
+                    (*wp_node)[i]["action"]["A"] >> action;
                     waypoints_.push_back(point);
                     //I think here I need to push_back the action below
                     

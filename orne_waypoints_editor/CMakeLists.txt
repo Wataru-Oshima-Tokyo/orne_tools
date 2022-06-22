@@ -120,7 +120,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES waypoints_editor
 #  CATKIN_DEPENDS other_catkin_pkg
-#  DEPENDS system_lib
+ DEPENDS roscpp rospy std_msgs message_runtime geometry_msgs
 )
 
 ###########

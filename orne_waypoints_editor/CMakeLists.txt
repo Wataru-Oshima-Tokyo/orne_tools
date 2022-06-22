@@ -12,7 +12,6 @@ set(ORNE_WAYPOINYS_NAV_PATH "./src/")
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-
   tf
   std_srvs
   std_msgs

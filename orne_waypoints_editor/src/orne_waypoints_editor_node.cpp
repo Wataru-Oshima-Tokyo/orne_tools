@@ -158,8 +158,8 @@ public:
             waypoints_.at(wp_num).duration = 5;
         }
 
-        // makeWpInteractiveMarker(std::to_string(waypoints_.size()-1), waypoints_.at(waypoints_.size()-1));
-        // server->applyChanges();
+        makeWpInteractiveMarker(std::to_string(waypoints_.size()-1), waypoints_.at(waypoints_.size()-1));
+        server->applyChanges();
     }
 
     
@@ -306,19 +306,20 @@ public:
 
     void makeWpInteractiveMarker(std::string name, orne_waypoints_editor::Waypoint point){
         InteractiveMarker int_marker;
+        std::string _name = name + " " + point.action;
         int_marker.controls.clear();
         int_marker.header.frame_id = world_frame_;
         int_marker.pose.position.x = point.x;
         int_marker.pose.position.y = point.y;
         int_marker.pose.position.z = point.z;
         int_marker.scale = 1;
-        int_marker.name = name + " " + point.action;
-        int_marker.description = name + " " + point.action;
+        int_marker.name = _name;
+        int_marker.description = _name;
 
         int_marker.controls.push_back(makeWpControl(int_marker));
 
         server->insert(int_marker, boost::bind(&WaypointsEditor::processFeedback, this, _1));
-        wp_menu_handler_.apply(*server, name);
+        wp_menu_handler_.apply(*server, _name);
     }
 
     void makeWpsInteractiveMarker(){

@@ -278,9 +278,9 @@ public:
 //         marker.scale.x = 0.8;
 //         marker.scale.y = 0.8;
 //         marker.scale.z = 0.8;
-        marker.scale.x = 0.2;
-        marker.scale.y = 0.2;
-        marker.scale.z = 0.2;
+        marker.scale.x = 0.5;
+        marker.scale.y = 0.5;
+        marker.scale.z = 0.5;
         marker.color.r = 0.08;
         marker.color.g = 2.0;
         marker.color.b = 0.8;

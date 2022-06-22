@@ -65,6 +65,8 @@ add_message_files(
   FILES
   Waypoint.msg
   WaypointArray.msg
+  Pose.msg
+  Quaternion.msg
 )
 
 ## Generate services in the 'srv' folder

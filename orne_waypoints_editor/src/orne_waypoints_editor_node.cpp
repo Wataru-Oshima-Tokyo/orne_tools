@@ -313,13 +313,13 @@ public:
         int_marker.pose.position.y = point.y;
         int_marker.pose.position.z = point.z;
         int_marker.scale = 1;
-        int_marker.name = _name;
+        int_marker.name = name;
         int_marker.description = _name;
 
         int_marker.controls.push_back(makeWpControl(int_marker));
 
         server->insert(int_marker, boost::bind(&WaypointsEditor::processFeedback, this, _1));
-        wp_menu_handler_.apply(*server, _name);
+        wp_menu_handler_.apply(*server, name);
     }
 
     void makeWpsInteractiveMarker(){

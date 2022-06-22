@@ -158,7 +158,7 @@ public:
             waypoints_.at(wp_num).duration = 5;
         }
 
-        //makeWpInteractiveMarker(std::to_string(waypoints_.size()-1), waypoints_.at(waypoints_.size()-1));
+        makeWpsInteractiveMarker();
         server->applyChanges();
     }
 

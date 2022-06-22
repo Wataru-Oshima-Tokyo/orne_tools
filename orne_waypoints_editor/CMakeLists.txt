@@ -63,7 +63,7 @@ endif()
 add_message_files(
   FILES
   Waypoint.msg
-
+  WaypointArray.msg
 )
 
 ## Generate services in the 'srv' folder

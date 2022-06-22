@@ -157,7 +157,7 @@ public:
             waypoints_.at(wp_num).action = "talk";
             waypoints_.at(wp_num).duration = 5;
         }
-        
+
         makeWpInteractiveMarker(std::to_string(waypoints_.size()-1), waypoints_.at(waypoints_.size()-1));
         server->applyChanges();
     }
@@ -243,7 +243,7 @@ public:
             marker.scale.z = 1.0;
             marker.color.r = 0.0;
             marker.color.g = 0.0;
-            marker.color.b = 10.0;
+            marker.color.b = 0.0;
             marker.color.a = 1.0;
             marker.action = visualization_msgs::Marker::ADD;
             marker_description_.markers.push_back(marker);

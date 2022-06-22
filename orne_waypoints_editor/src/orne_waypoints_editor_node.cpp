@@ -282,7 +282,7 @@ public:
         marker.scale.y = 0.2;
         marker.scale.z = 0.2;
         marker.color.r = 0.08;
-        marker.color.g = 0.0;
+        marker.color.g = 2.0;
         marker.color.b = 0.8;
         marker.color.a = 0.5;
 

@@ -1,2 +1,3 @@
 Header header
-Waypoint[] poses
+Pose[] poses
+string[] actions

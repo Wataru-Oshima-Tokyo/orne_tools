@@ -12,6 +12,7 @@ set(ORNE_WAYPOINYS_NAV_PATH "./src/")
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+
   tf
   std_srvs
   std_msgs
@@ -84,7 +85,7 @@ add_message_files(
 generate_messages(
   DEPENDENCIES
   std_msgs 
-  geometry_msgs  # Or other packages containing msgs
+  geometry_msgs # Or other packages containing msgs
 )
 
 ################################################
@@ -120,7 +121,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES waypoints_editor
 #  CATKIN_DEPENDS other_catkin_pkg
- DEPENDS roscpp rospy std_msgs message_runtime geometry_msgs
+ DEPENDS roscpp std_msgs message_runtime geometry_msgs
 )
 
 ###########

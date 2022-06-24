@@ -237,8 +237,8 @@ public:
             marker.ns = name.str();
             marker.id = i;
             marker.lifetime = ros::Duration(0.5);
-            marker.pose.position.x = waypoints_.at(i).x+ 2.0;
-            marker.pose.position.y = waypoints_.at(i).y+ 2.0;
+            marker.pose.position.x = waypoints_.at(i).x+ 0.3;
+            marker.pose.position.y = waypoints_.at(i).y;
             marker.pose.position.z = 3.0;
             marker.scale.z = 0.5;
             marker.color.r = 0.0;

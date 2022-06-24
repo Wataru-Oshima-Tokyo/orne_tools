@@ -332,9 +332,9 @@ public:
         int_marker.name = name;
         int_marker.description = _name;
         if (point.action=="charge"){
-            int_marker.controls.push_back(makeWpControl(int_marker), true);
+            int_marker.controls.push_back(makeWpControl(int_marker,true));
         }else{
-            int_marker.controls.push_back(makeWpControl(int_marker). false);
+            int_marker.controls.push_back(makeWpControl(int_marker,false));
         }
         
 

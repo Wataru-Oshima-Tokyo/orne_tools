@@ -241,7 +241,7 @@ public:
             marker.pose.position.y = waypoints_.at(i).y;
             marker.pose.position.z = 3.0;
             //marker.scale.z = 2.0;
-            marker.scale.z = 1.0;
+            marker.scale.z = 4.0;
             marker.color.r = 0.0;
             marker.color.g = 0.0;
             marker.color.b = 0.0;
@@ -262,7 +262,7 @@ public:
             marker.pose = finish_pose_.pose;
             marker.pose.position.z = 3.0;
             //marker.scale.z = 2.0;
-            marker.scale.z = .2;
+            marker.scale.z = 4.2;
             marker.color.r = 0.0;
             marker.color.g = 0.0;
             marker.color.b = 0.0;

@@ -237,11 +237,11 @@ public:
             marker.ns = name.str();
             marker.id = i;
             marker.lifetime = ros::Duration(0.5);
-            marker.pose.position.x = waypoints_.at(i).x+ 0.3;
+            marker.pose.position.x = waypoints_.at(i).x+ 0.5;
             marker.pose.position.y = waypoints_.at(i).y;
             marker.pose.position.z = 3.0;
             marker.scale.z = 0.5;
-            marker.color.r = 0.0;
+            marker.color.r = 2.0;
             marker.color.g = 2.0;
             marker.color.b = 3.0;
             marker.color.a = 1.0;
@@ -328,7 +328,7 @@ public:
         int_marker.pose.position.z = point.z;
         int_marker.scale = 1;
         int_marker.name = name;
-        int_marker.description = _name;
+        int_marker.description = "";//_name;
         if (point.action=="charge"){
             int_marker.controls.push_back(makeWpControl(int_marker,true));
         }else{
@@ -354,7 +354,7 @@ public:
             int_marker.pose = finish_pose_.pose;
             int_marker.scale = 1;
             int_marker.name = "finish_pose";
-            int_marker.description = "finish_pose";
+            int_marker.description = "";//"finish_pose";
 
             InteractiveMarkerControl control;
             control.markers.clear();

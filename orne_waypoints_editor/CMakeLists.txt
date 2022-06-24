@@ -120,7 +120,7 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-LIBRARIES ${PROJECT_NAME}
+# LIBRARIES ${PROJECT_NAME}
 #  CATKIN_DEPENDS other_catkin_pkg
  DEPENDS roscpp std_msgs message_runtime geometry_msgs
 )

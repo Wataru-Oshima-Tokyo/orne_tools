@@ -243,7 +243,7 @@ public:
             //marker.scale.z = 2.0;
             marker.scale.z = 4.0;
             marker.color.r = 0.0;
-            marker.color.g = 0.0;
+            marker.color.g = 2.0;
             marker.color.b = 0.0;
             marker.color.a = 1.0;
             marker.action = visualization_msgs::Marker::ADD;

@@ -124,7 +124,7 @@ public:
         wp_menu_handler_.insert(wp_action_menu_handler, "Look Down", boost::bind(&WaypointsEditor::actionCb, this, _1));
         wp_menu_handler_.insert(wp_action_menu_handler, "Look Left", boost::bind(&WaypointsEditor::actionCb, this, _1));
         wp_menu_handler_.insert(wp_action_menu_handler, "Look Right", boost::bind(&WaypointsEditor::actionCb, this, _1));
-        wp_menu_handler_.insert(wp_action_menu_handler, "Talk", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        wp_menu_handler_.insert(wp_action_menu_handler, "Charge", boost::bind(&WaypointsEditor::actionCb, this, _1));
     }
 
     void actionCb(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
@@ -153,9 +153,10 @@ public:
             waypoints_.at(wp_num).action = "lookright";
             waypoints_.at(wp_num).duration = 5;
         }else if(feedback->menu_entry_id == 11){
-            ROS_INFO_STREAM("Talk");
-            waypoints_.at(wp_num).action = "talk";
+            ROS_INFO_STREAM("Charge");
+            waypoints_.at(wp_num).action = "charge";
             waypoints_.at(wp_num).duration = 5;
+
         }
 
         makeWpsInteractiveMarker();
@@ -272,24 +273,34 @@ public:
         marker_description_pub_.publish(marker_description_);
     }
 
-    Marker makeWpMarker(){
+    Marker makeWpMarker(bool charge){
         Marker marker;
-        marker.type = Marker::SPHERE;
+        
 //         marker.scale.x = 0.8;
 //         marker.scale.y = 0.8;
 //         marker.scale.z = 0.8;
         marker.scale.x = 0.5;
         marker.scale.y = 0.5;
         marker.scale.z = 0.5;
-        marker.color.r = 0.08;
-        marker.color.g = 2.0;
-        marker.color.b = 0.8;
-        marker.color.a = 0.5;
+        if(charge){
+            marker.type = Marker::CUBE_LIST;
+            marker.color.r = 2.0;
+            marker.color.g = 0.5;
+            marker.color.b = 0.8;
+            marker.color.a = 0.5;
+        }
+        else{
+            marker.type = Marker::SPHERE;
+            marker.color.r = 0.08;
+            marker.color.g = 2.0;
+            marker.color.b = 0.8;
+            marker.color.a = 0.5;
+        }
 
         return marker;
     }
     
-    InteractiveMarkerControl& makeWpControl(InteractiveMarker &msg) {
+    InteractiveMarkerControl& makeWpControl(InteractiveMarker &msg, bool charge) {
         InteractiveMarkerControl control;
         control.markers.clear();
         control.orientation.w = 1;
@@ -298,11 +309,16 @@ public:
         control.orientation.z = 0;
         control.interaction_mode = InteractiveMarkerControl::MOVE_PLANE;
         control.always_visible = true;
-        control.markers.push_back(makeWpMarker());
+        if(charge)
+            control.markers.push_back(makeWpMarker(true));
+        else
+            control.markers.push_back(makeWpMarker(false));
         msg.controls.push_back(control);
 
         return msg.controls.back();
     }
+
+
 
     void makeWpInteractiveMarker(std::string name, orne_waypoints_editor::Waypoint point){
         InteractiveMarker int_marker;
@@ -315,8 +331,12 @@ public:
         int_marker.scale = 1;
         int_marker.name = name;
         int_marker.description = _name;
-
-        int_marker.controls.push_back(makeWpControl(int_marker));
+        if (point.action="charge"){
+            int_marker.controls.push_back(makeWpControl(int_marker), true);
+        }else{
+            int_marker.controls.push_back(makeWpControl(int_marker). false);
+        }
+        
 
         server->insert(int_marker, boost::bind(&WaypointsEditor::processFeedback, this, _1));
         wp_menu_handler_.apply(*server, name);

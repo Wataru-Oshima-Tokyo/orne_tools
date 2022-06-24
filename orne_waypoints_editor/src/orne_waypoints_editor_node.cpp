@@ -229,7 +229,7 @@ public:
         for(int i=0; i!=waypoints_.size(); i++){
             Marker marker;
             marker.type = Marker::TEXT_VIEW_FACING;
-            marker.text = std::to_string(i);
+            marker.text = std::to_string(i) + waypoints_.at(i).action ;
             marker.header.frame_id = world_frame_;
             marker.header.stamp = ros::Time(0);
             std::stringstream name;
@@ -240,9 +240,7 @@ public:
             marker.pose.position.x = waypoints_.at(i).x;
             marker.pose.position.y = waypoints_.at(i).y;
             marker.pose.position.z = 3.0;
-            marker.scale.x = 0.5;
-            marker.scale.y = 0.5;
-            marker.scale.z = 2.0;
+            marker.scale.z = 1.0;
             marker.color.r = 0.0;
             marker.color.g = 2.0;
             marker.color.b = 0.0;
@@ -262,9 +260,7 @@ public:
             marker.lifetime = ros::Duration(0.5);
             marker.pose = finish_pose_.pose;
             marker.pose.position.z = 3.0;
-            marker.scale.x = 0.5;
-            marker.scale.y = 0.5;
-            marker.scale.z = 2.0;
+            marker.scale.z = 1.0;
             marker.color.r = 0.0;
             marker.color.g = 0.0;
             marker.color.b = 0.0;

@@ -11,7 +11,7 @@
 #include <visualization_msgs/InteractiveMarker.h>
 #include <visualization_msgs/InteractiveMarkerUpdate.h>
 #include <std_msgs/String.h>
-
+#include "orne_waypoints_editor/Waypoint.h"
 #include <std_srvs/Trigger.h>
 
 #include <yaml-cpp/yaml.h>
@@ -103,7 +103,9 @@ public:
         if (feedback->marker_name == "finish_pose") {
             finish_pose_.pose = feedback->pose;
         } else {
-          waypoints_.at(std::stoi(feedback->marker_name)) = feedback->pose.position;
+          waypoints_.at(std::stoi(feedback->marker_name)).x = feedback->pose.position.x;
+          waypoints_.at(std::stoi(feedback->marker_name)).y = feedback->pose.position.y;
+          waypoints_.at(std::stoi(feedback->marker_name)).z = feedback->pose.position.z;
         }
     }
 
@@ -120,22 +122,45 @@ public:
         interactive_markers::MenuHandler::EntryHandle action_mode = wp_menu_handler_.insert(wp_action_menu_handler, "Pass Through", boost::bind(&WaypointsEditor::actionCb, this, _1));
         wp_menu_handler_.insert(wp_action_menu_handler, "Look Up", boost::bind(&WaypointsEditor::actionCb, this, _1));
         wp_menu_handler_.insert(wp_action_menu_handler, "Look Down", boost::bind(&WaypointsEditor::actionCb, this, _1));
-        wp_menu_handler_.insert(wp_action_menu_handler, "Take Photo", boost::bind(&WaypointsEditor::actionCb, this, _1));
-        wp_menu_handler_.insert(wp_action_menu_handler, "Talk", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        wp_menu_handler_.insert(wp_action_menu_handler, "Look Left", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        wp_menu_handler_.insert(wp_action_menu_handler, "Look Right", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        wp_menu_handler_.insert(wp_action_menu_handler, "Charge", boost::bind(&WaypointsEditor::actionCb, this, _1));
     }
 
     void actionCb(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
+        ROS_INFO_STREAM("menu_entry_id : " << feedback->menu_entry_id);
+        int wp_num= std::stoi(feedback->marker_name);
+        ROS_INFO_STREAM("set action : " << feedback->menu_entry_id);
+
         if(feedback->menu_entry_id == 6){
             ROS_INFO_STREAM("Pass Through");
+            waypoints_.at(wp_num).action = "passthrough";
+            waypoints_.at(wp_num).duration = 0;
         }else if(feedback->menu_entry_id == 7){
             ROS_INFO_STREAM("Look Up");
+            waypoints_.at(wp_num).action = "lookup";
+            waypoints_.at(wp_num).duration = 5;
         }else if(feedback->menu_entry_id == 8){
             ROS_INFO_STREAM("Look Down");
+            waypoints_.at(wp_num).action = "lookdown";
+            waypoints_.at(wp_num).duration = 5;
         }else if(feedback->menu_entry_id == 9){
-            ROS_INFO_STREAM("Take Photo");
+            ROS_INFO_STREAM("Look Left");
+            waypoints_.at(wp_num).action = "lookleft";
+            waypoints_.at(wp_num).duration = 5;
         }else if(feedback->menu_entry_id == 10){
-            ROS_INFO_STREAM("Talk");
+            ROS_INFO_STREAM("Look Right");
+            waypoints_.at(wp_num).action = "lookright";
+            waypoints_.at(wp_num).duration = 5;
+        }else if(feedback->menu_entry_id == 11){
+            ROS_INFO_STREAM("Charge");
+            waypoints_.at(wp_num).action = "charge";
+            waypoints_.at(wp_num).duration = 5;
+
         }
+
+        makeWpsInteractiveMarker();
+        server->applyChanges();
     }
 
     
@@ -147,7 +172,9 @@ public:
         waypoints_.erase(waypoints_.begin() + wp_num);
         for (int i=wp_num; i<waypoints_.size(); i++) {
             geometry_msgs::Pose p;
-            p.position = waypoints_.at(i);
+            p.position.x = waypoints_.at(i).x;
+            p.position.y = waypoints_.at(i).y;
+            p.position.z = waypoints_.at(i).z;
             server->setPose(std::to_string(i), p);
         }
         server->erase(std::to_string((int)waypoints_.size()));
@@ -159,18 +186,31 @@ public:
         int wp_num= std::stoi(feedback->marker_name);
         ROS_INFO_STREAM("insert : " << feedback->menu_entry_id);
         geometry_msgs::Pose p = feedback->pose;
+        orne_waypoints_editor::Waypoint wp;
         if (feedback->menu_entry_id == 4){
             p.position.x -= 1.0;
-            waypoints_.insert(waypoints_.begin() + wp_num, p.position);
+            wp.x = p.position.x;
+            wp.y = p.position.y;
+            wp.z = p.position.z;
+            wp.action = "passthrough";
+            wp.duration =0;
+            waypoints_.insert(waypoints_.begin() + wp_num, wp);
 
         } else if (feedback->menu_entry_id == 5) {
             p.position.x += + 1.0;
-            waypoints_.insert(waypoints_.begin() + wp_num + 1, p.position);
+            wp.x = p.position.x;
+            wp.y = p.position.y;
+            wp.z = p.position.z;
+            wp.action = "passthrough";
+            wp.duration =0;
+            waypoints_.insert(waypoints_.begin() + wp_num + 1, wp);
         }
 
         for (int i=wp_num; i<waypoints_.size()-1; i++) {
             geometry_msgs::Pose p;
-            p.position = waypoints_.at(i);
+            p.position.x = waypoints_.at(i).x;
+            p.position.y = waypoints_.at(i).y;
+            p.position.z = waypoints_.at(i).z;
             server->setPose(std::to_string(i), p);
         }
         makeWpInteractiveMarker(std::to_string(waypoints_.size()-1), waypoints_.at(waypoints_.size()-1));
@@ -189,7 +229,7 @@ public:
         for(int i=0; i!=waypoints_.size(); i++){
             Marker marker;
             marker.type = Marker::TEXT_VIEW_FACING;
-            marker.text = std::to_string(i);
+            marker.text = std::to_string(i) +": " +waypoints_.at(i).action ;
             marker.header.frame_id = world_frame_;
             marker.header.stamp = ros::Time(0);
             std::stringstream name;
@@ -197,13 +237,13 @@ public:
             marker.ns = name.str();
             marker.id = i;
             marker.lifetime = ros::Duration(0.5);
-            marker.pose.position = waypoints_.at(i);
+            marker.pose.position.x = waypoints_.at(i).x+ 0.5;
+            marker.pose.position.y = waypoints_.at(i).y;
             marker.pose.position.z = 3.0;
-            //marker.scale.z = 2.0;
-            marker.scale.z = 1.0;
-            marker.color.r = 0.0;
-            marker.color.g = 0.0;
-            marker.color.b = 0.0;
+            marker.scale.z = 0.5;
+            marker.color.r = 2.0;
+            marker.color.g = 2.0;
+            marker.color.b = 3.0;
             marker.color.a = 1.0;
             marker.action = visualization_msgs::Marker::ADD;
             marker_description_.markers.push_back(marker);
@@ -220,8 +260,7 @@ public:
             marker.lifetime = ros::Duration(0.5);
             marker.pose = finish_pose_.pose;
             marker.pose.position.z = 3.0;
-            //marker.scale.z = 2.0;
-            marker.scale.z = .2;
+            marker.scale.z = 0.5;
             marker.color.r = 0.0;
             marker.color.g = 0.0;
             marker.color.b = 0.0;
@@ -232,24 +271,34 @@ public:
         marker_description_pub_.publish(marker_description_);
     }
 
-    Marker makeWpMarker(){
+    Marker makeWpMarker(bool charge){
         Marker marker;
-        marker.type = Marker::SPHERE;
+        
 //         marker.scale.x = 0.8;
 //         marker.scale.y = 0.8;
 //         marker.scale.z = 0.8;
-        marker.scale.x = 0.2;
-        marker.scale.y = 0.2;
-        marker.scale.z = 0.2;
-        marker.color.r = 0.08;
-        marker.color.g = 0.0;
-        marker.color.b = 0.8;
-        marker.color.a = 0.5;
+        marker.scale.x = 0.5;
+        marker.scale.y = 0.5;
+        marker.scale.z = 0.5;
+        if(charge){
+            marker.type = Marker::CUBE;
+            marker.color.r = 2.0;
+            marker.color.g = 0.5;
+            marker.color.b = 0.8;
+            marker.color.a = 0.5;
+        }
+        else{
+            marker.type = Marker::SPHERE;
+            marker.color.r = 0.08;
+            marker.color.g = 2.0;
+            marker.color.b = 0.8;
+            marker.color.a = 0.5;
+        }
 
         return marker;
     }
     
-    InteractiveMarkerControl& makeWpControl(InteractiveMarker &msg) {
+    InteractiveMarkerControl& makeWpControl(InteractiveMarker &msg, bool charge) {
         InteractiveMarkerControl control;
         control.markers.clear();
         control.orientation.w = 1;
@@ -258,22 +307,34 @@ public:
         control.orientation.z = 0;
         control.interaction_mode = InteractiveMarkerControl::MOVE_PLANE;
         control.always_visible = true;
-        control.markers.push_back(makeWpMarker());
+        if(charge)
+            control.markers.push_back(makeWpMarker(true));
+        else
+            control.markers.push_back(makeWpMarker(false));
         msg.controls.push_back(control);
 
         return msg.controls.back();
     }
 
-    void makeWpInteractiveMarker(std::string name, geometry_msgs::Point point){
+
+
+    void makeWpInteractiveMarker(std::string name, orne_waypoints_editor::Waypoint point){
         InteractiveMarker int_marker;
+        std::string _name = name + " " + point.action;
         int_marker.controls.clear();
         int_marker.header.frame_id = world_frame_;
-        int_marker.pose.position = point;
+        int_marker.pose.position.x = point.x;
+        int_marker.pose.position.y = point.y;
+        int_marker.pose.position.z = point.z;
         int_marker.scale = 1;
         int_marker.name = name;
-        int_marker.description = name;
-
-        int_marker.controls.push_back(makeWpControl(int_marker));
+        int_marker.description = "";//_name;
+        if (point.action=="charge"){
+            int_marker.controls.push_back(makeWpControl(int_marker,true));
+        }else{
+            int_marker.controls.push_back(makeWpControl(int_marker,false));
+        }
+        
 
         server->insert(int_marker, boost::bind(&WaypointsEditor::processFeedback, this, _1));
         wp_menu_handler_.apply(*server, name);
@@ -293,7 +354,7 @@ public:
             int_marker.pose = finish_pose_.pose;
             int_marker.scale = 1;
             int_marker.name = "finish_pose";
-            int_marker.description = "finish_pose";
+            int_marker.description = "";//"finish_pose";
 
             InteractiveMarkerControl control;
             control.markers.clear();
@@ -347,12 +408,12 @@ public:
 
             if(wp_node != NULL){
                 for(int i=0; i < wp_node->size(); i++){
-                    geometry_msgs::Point point;
-                    std::string action;
+                    orne_waypoints_editor::Waypoint point;
                     (*wp_node)[i]["point"]["x"] >> point.x;
                     (*wp_node)[i]["point"]["y"] >> point.y;
                     (*wp_node)[i]["point"]["z"] >> point.z;
-                    // (*wp_node)[i]["action"]["A"] >> action;
+                    (*wp_node)[i]["point"]["a"] >> point.action;
+                    (*wp_node)[i]["point"]["d"] >> point.duration;
                     waypoints_.push_back(point);
                     //I think here I need to push_back the action below
                     
@@ -392,11 +453,17 @@ public:
     }
 
     void waypointsVizCallback(const geometry_msgs::PointStamped &msg){
+        orne_waypoints_editor::Waypoint _wp;
+        _wp.x = msg.point.x;
+        _wp.y = msg.point.y;
+        _wp.z = msg.point.z;
+        _wp.action = "passthrough";
+        _wp.duration = 0;
         ROS_INFO_STREAM("point = " << msg);
-        makeWpInteractiveMarker(std::to_string(waypoints_.size()), msg.point);
+        makeWpInteractiveMarker(std::to_string(waypoints_.size()), _wp);
         server->applyChanges();
 
-        waypoints_.push_back(msg.point);
+        waypoints_.push_back(_wp);
     }
 
     void waypointsJoyCallback(const sensor_msgs::Joy &msg) {
@@ -405,7 +472,7 @@ public:
             tf::StampedTransform robot_gl;
             try{
                 tf_listener_.lookupTransform(world_frame_, robot_frame_, msg.header.stamp, robot_gl);
-                geometry_msgs::Point point;
+                orne_waypoints_editor::Waypoint point;
                 point.x = robot_gl.getOrigin().x();
                 point.y = robot_gl.getOrigin().y();
                 point.z = robot_gl.getOrigin().z();
@@ -451,8 +518,8 @@ public:
                 ofs << "        x: " << waypoints_[i].x << std::endl;
                 ofs << "        y: " << waypoints_[i].y << std::endl;
                 ofs << "        z: " << waypoints_[i].z << std::endl;
-                ofs << "    " << "- action:" << std::endl;
-                ofs << "        A: " << "look up"  << std::endl;
+                ofs << "        a: " << waypoints_[i].action  << std::endl;
+                ofs << "        d: " << waypoints_[i].duration  << std::endl;
             }
             
             ofs << "finish_pose:"           << std::endl;
@@ -470,8 +537,6 @@ public:
             ofs << "            y: "        << finish_pose_.pose.orientation.y << std::endl;
             ofs << "            z: "        << finish_pose_.pose.orientation.z << std::endl;
             ofs << "            w: "        << finish_pose_.pose.orientation.w << std::endl;
-            ofs << "    action:"            << std::endl;
-            ofs << "            A: "        << "Laydown" << std::endl;
 
             ofs.close();
 
@@ -497,7 +562,7 @@ private:
     ros::Subscriber waypoints_joy_sub_;
     ros::Subscriber finish_pose_sub_;
     ros::Publisher marker_description_pub_;
-    std::vector<geometry_msgs::Point> waypoints_;
+    std::vector<orne_waypoints_editor::Waypoint> waypoints_;
     geometry_msgs::PoseStamped finish_pose_;
     visualization_msgs::MarkerArray marker_description_;
     tf::TransformListener tf_listener_;

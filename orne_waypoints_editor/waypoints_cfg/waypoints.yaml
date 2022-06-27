@@ -16,7 +16,7 @@ waypoints:
         y: -3.35514
         z: -0.000262498
         a: lookright
-        d: 5
+        d: 5 
 finish_pose:
     header:
         seq: 0

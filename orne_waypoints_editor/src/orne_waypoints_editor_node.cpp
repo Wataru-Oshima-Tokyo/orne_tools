@@ -185,7 +185,7 @@ public:
         int wp_num= std::stoi(feedback->marker_name);
         ROS_INFO_STREAM("insert : " << feedback->menu_entry_id);
         geometry_msgs::Pose p = feedback->pose;
-        orne_waypoints_editor::Waypoint wp;
+        orne_waypoints_msgs::Waypoint wp;
         if (feedback->menu_entry_id == 4){
             p.position.x -= 1.0;
             wp.x = p.position.x;
@@ -317,7 +317,7 @@ public:
 
 
 
-    void makeWpInteractiveMarker(std::string name, orne_waypoints_editor::Waypoint point){
+    void makeWpInteractiveMarker(std::string name, orne_waypoints_msgs::Waypoint point){
         InteractiveMarker int_marker;
         int_marker.controls.clear();
         int_marker.header.frame_id = world_frame_;
@@ -406,7 +406,7 @@ public:
 
             if(wp_node != NULL){
                 for(int i=0; i < wp_node->size(); i++){
-                    orne_waypoints_editor::Waypoint point;
+                    orne_waypoints_msgs::Waypoint point;
                     (*wp_node)[i]["point"]["x"] >> point.x;
                     (*wp_node)[i]["point"]["y"] >> point.y;
                     (*wp_node)[i]["point"]["z"] >> point.z;
@@ -451,7 +451,7 @@ public:
     }
 
     void waypointsVizCallback(const geometry_msgs::PointStamped &msg){
-        orne_waypoints_editor::Waypoint _wp;
+        orne_waypoints_msgs::Waypoint _wp;
         _wp.x = msg.point.x;
         _wp.y = msg.point.y;
         _wp.z = msg.point.z;
@@ -470,7 +470,7 @@ public:
             tf::StampedTransform robot_gl;
             try{
                 tf_listener_.lookupTransform(world_frame_, robot_frame_, msg.header.stamp, robot_gl);
-                orne_waypoints_editor::Waypoint point;
+                orne_waypoints_msgs::Waypoint point;
                 point.x = robot_gl.getOrigin().x();
                 point.y = robot_gl.getOrigin().y();
                 point.z = robot_gl.getOrigin().z();
@@ -560,7 +560,7 @@ private:
     ros::Subscriber waypoints_joy_sub_;
     ros::Subscriber finish_pose_sub_;
     ros::Publisher marker_description_pub_;
-    std::vector<orne_waypoints_editor::Waypoint> waypoints_;
+    std::vector<orne_waypoints_msgs::Waypoint> waypoints_;
     geometry_msgs::PoseStamped finish_pose_;
     visualization_msgs::MarkerArray marker_description_;
     tf::TransformListener tf_listener_;

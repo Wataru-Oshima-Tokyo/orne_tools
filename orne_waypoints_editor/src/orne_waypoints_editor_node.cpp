@@ -156,7 +156,6 @@ public:
             ROS_INFO_STREAM("Charge");
             waypoints_.at(wp_num).action = "charge";
             waypoints_.at(wp_num).duration = 5;
-
         }
 
         makeWpsInteractiveMarker();

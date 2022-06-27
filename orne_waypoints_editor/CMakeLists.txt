@@ -18,7 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   visualization_msgs
   interactive_markers
-  message_generation
+  orne_waypoints_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -60,13 +60,13 @@ endif()
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  Waypoint.msg
-  WaypointArray.msg
-  Pose.msg
-  Quaternion.msg
-)
+# add_message_files(
+#   FILES
+#   Waypoint.msg
+#   WaypointArray.msg
+#   Pose.msg
+#   Quaternion.msg
+# )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -79,15 +79,15 @@ add_message_files(
 # add_action_files(
 #   FILES
 #   Action1.action
-#   Action2.action
+#   Action2.action st 
 # )
 
 # Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs 
-  geometry_msgs # Or other packages containing msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs 
+#   geometry_msgs # Or other packages containing msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -122,7 +122,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 # LIBRARIES ${PROJECT_NAME}
 #  CATKIN_DEPENDS other_catkin_pkg
- DEPENDS roscpp std_msgs message_runtime geometry_msgs
+ DEPENDS roscpp std_msgs message_runtime geometry_msgs orne_waypoints_msgs
 )
 
 ###########

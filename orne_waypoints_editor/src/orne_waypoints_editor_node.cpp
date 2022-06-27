@@ -11,7 +11,7 @@
 #include <visualization_msgs/InteractiveMarker.h>
 #include <visualization_msgs/InteractiveMarkerUpdate.h>
 #include <std_msgs/String.h>
-#include "orne_waypoints_editor/Waypoint.h"
+#include "orne_waypoints_msgs/Waypoint.h"
 #include <std_srvs/Trigger.h>
 
 #include <yaml-cpp/yaml.h>

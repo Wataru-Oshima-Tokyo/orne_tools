@@ -229,7 +229,7 @@ public:
         for(int i=0; i!=waypoints_.size(); i++){
             Marker marker;
             marker.type = Marker::TEXT_VIEW_FACING;
-            marker.text = std::to_string(i) +": " +waypoints_.at(i).action ;
+            marker.text = std::to_string(i) +":" +waypoints_.at(i).action ;
             marker.header.frame_id = world_frame_;
             marker.header.stamp = ros::Time(0);
             std::stringstream name;
@@ -320,7 +320,6 @@ public:
 
     void makeWpInteractiveMarker(std::string name, orne_waypoints_editor::Waypoint point){
         InteractiveMarker int_marker;
-        std::string _name = name + " " + point.action;
         int_marker.controls.clear();
         int_marker.header.frame_id = world_frame_;
         int_marker.pose.position.x = point.x;
@@ -328,7 +327,7 @@ public:
         int_marker.pose.position.z = point.z;
         int_marker.scale = 1;
         int_marker.name = name;
-        int_marker.description = "";//_name;
+        int_marker.description = "";
         if (point.action=="charge"){
             int_marker.controls.push_back(makeWpControl(int_marker,true));
         }else{
@@ -354,7 +353,7 @@ public:
             int_marker.pose = finish_pose_.pose;
             int_marker.scale = 1;
             int_marker.name = "finish_pose";
-            int_marker.description = "";//"finish_pose";
+            int_marker.description = "";
 
             InteractiveMarkerControl control;
             control.markers.clear();

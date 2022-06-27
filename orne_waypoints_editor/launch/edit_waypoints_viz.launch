@@ -5,7 +5,7 @@
   <arg name="map_file" default="$(find limo_bringup)/maps/limo_map.yaml"/>
   <arg name="waypoints_file" default="$(find orne_waypoints_editor)/waypoints_cfg/waypoints.yaml"/>
 
-  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+  <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/> -->
   
   <node pkg="orne_waypoints_editor" name="orne_waypoints_editor" type="orne_waypoints_editor" output="screen">
     <param name="filename" value="$(arg waypoints_file)"/>

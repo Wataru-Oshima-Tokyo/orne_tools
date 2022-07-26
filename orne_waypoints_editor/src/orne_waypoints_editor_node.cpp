@@ -335,10 +335,10 @@ public:
         int_marker.pose.position.x = point.position.x;
         int_marker.pose.position.y = point.position.y;
         int_marker.pose.position.z = point.position.z;
-        int_marker.pose.orientation.x = point.orinentation.x;
-        int_marker.pose.orientation.y = point.orinentation.y;
-        int_marker.pose.orientation.z = point.orinentation.z;
-        int_marker.pose.orientation.w = point.orinentation.w;
+        int_marker.pose.orientation.x = point.orientation.x;
+        int_marker.pose.orientation.y = point.orientation.y;
+        int_marker.pose.orientation.z = point.orientation.z;
+        int_marker.pose.orientation.w = point.orientation.w;
         int_marker.scale = 1;
         int_marker.name = name;
         int_marker.description = "";

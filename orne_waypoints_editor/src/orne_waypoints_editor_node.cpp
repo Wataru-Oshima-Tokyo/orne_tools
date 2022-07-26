@@ -286,12 +286,13 @@ public:
 //         marker.scale.x = 0.8;
 //         marker.scale.y = 0.8;
 //         marker.scale.z = 0.8;
-        marker.scale.x = 0.5;
-        marker.scale.y = 0.5;
-        marker.scale.z = 0.5;
+
         if(action=="charge"){
             // marker.type = Marker::CUBE;
             marker.type = Marker::ARROW;
+            marker.scale.x = 0.7;
+            marker.scale.y = 0.2;
+            marker.scale.z = 0.2;
             marker.color.r = 2.0;
             marker.color.g = 0.5;
             marker.color.b = 0.8;
@@ -299,6 +300,9 @@ public:
         }
         else{
             marker.type = Marker::SPHERE;
+            marker.scale.x = 0.5;
+            marker.scale.y = 0.5;
+            marker.scale.z = 0.5;
             marker.color.r = 0.08;
             marker.color.g = 2.0;
             marker.color.b = 0.8;

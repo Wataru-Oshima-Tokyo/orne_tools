@@ -172,9 +172,9 @@ public:
         for (int i=wp_num; i<waypoints_.size(); i++) {
             // geometry_msgs::Pose p;
             orne_waypoints_msgs::Waypoint p;
-            p.position.x = waypoints_.at(i).x;
-            p.position.y = waypoints_.at(i).y;
-            p.position.z = waypoints_.at(i).z;
+            p.x = waypoints_.at(i).x;
+            p.y = waypoints_.at(i).y;
+            p.z = waypoints_.at(i).z;
             server->setPose(std::to_string(i), p);
         }
         server->erase(std::to_string((int)waypoints_.size()));

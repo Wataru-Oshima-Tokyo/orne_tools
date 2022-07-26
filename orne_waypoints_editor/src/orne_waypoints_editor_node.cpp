@@ -514,7 +514,7 @@ public:
                 ofs << "            x: " << waypoints_[i].x << std::endl;
                 ofs << "            y: " << waypoints_[i].y << std::endl;
                 ofs << "            z: " << waypoints_[i].z << std::endl;
-                ofs << "        pose:" << std::endl;
+                ofs << "        action:" << std::endl;
                 ofs << "            a: " << waypoints_[i].action  << std::endl;
                 ofs << "            d: " << waypoints_[i].duration  << std::endl;
                 ofs << "        orientation:" << std::endl;

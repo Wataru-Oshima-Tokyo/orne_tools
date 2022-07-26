@@ -465,6 +465,10 @@ public:
         _wp.position.z = msg.point.z;
         _wp.position.action = "passthrough";
         _wp.position.duration = 0;
+        _wp.orientation.x = msg.orientation.x;
+        _wp.orientation.y = msg.orientation.y;
+        _wp.orientation.z = msg.orientation.z;
+        _wp.orientation.w = msg.orientation.w;
         ROS_INFO_STREAM("point = " << msg);
         makeWpInteractiveMarker(std::to_string(waypoints_.size()), _wp);
         server->applyChanges();

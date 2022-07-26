@@ -213,7 +213,8 @@ public:
             p.position.z = waypoints_.at(i).z;
             server->setPose(std::to_string(i), p);
         }
-        makeWpInteractiveMarker(std::to_string(waypoints_.size()-1), waypoints_.at(waypoints_.size()-1));
+        // makeWpInteractiveMarker(std::to_string(waypoints_.size()-1), waypoints_.at(waypoints_.size()-1));
+        makeWpsInteractiveMarker();
         server->applyChanges();
     }
 

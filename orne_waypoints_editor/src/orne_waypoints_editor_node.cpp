@@ -458,17 +458,17 @@ public:
         return true;
     }
 
-    void waypointsVizCallback(const geometry_msgs::PointStamped &msg){
+    void waypointsVizCallback(const geometry_msgs::PoseStamped &msg){
         orne_waypoints_msgs::Pose _wp;
-        _wp.position.x = msg.pose.x;
-        _wp.position.y = msg.point.y;
-        _wp.position.z = msg.point.z;
+        _wp.position.x = msg.pose.position.x;
+        _wp.position.y = msg.pose.position.y;
+        _wp.position.z = msg.pose.position.z;
         _wp.position.action = "passthrough";
         _wp.position.duration = 0;
-        _wp.orientation.x = msg.orientation.x;
-        _wp.orientation.y = msg.orientation.y;
-        _wp.orientation.z = msg.orientation.z;
-        _wp.orientation.w = msg.orientation.w;
+        _wp.orientation.x = msg.pose.orientation.x;
+        _wp.orientation.y = msg.pose.orientation.y;
+        _wp.orientation.z = msg.pose.orientation.z;
+        _wp.orientation.w = msg.pose.orientation.w;
         ROS_INFO_STREAM("point = " << msg);
         makeWpInteractiveMarker(std::to_string(waypoints_.size()), _wp);
         server->applyChanges();

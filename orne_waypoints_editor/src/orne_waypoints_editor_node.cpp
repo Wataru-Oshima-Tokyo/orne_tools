@@ -409,6 +409,10 @@ public:
                     (*wp_node)[i]["point"]["pose"]["z"] >> point.position.z;
                     (*wp_node)[i]["point"]["action"]["a"] >> point.position.action;
                     (*wp_node)[i]["point"]["action"]["d"] >> point.position.duration;
+                    (*wp_node)[i]["point"]["orientation"]["x"] >> point.orientation.x;
+                    (*wp_node)[i]["point"]["orientation"]["y"] >> point.orientation.y;
+                    (*wp_node)[i]["point"]["orientation"]["z"] >> point.orientation.z;
+                    (*wp_node)[i]["point"]["orientation"]["w"] >> point.orientation.w;
                     waypoints_.push_back(point);
                     //I think here I need to push_back the action below
                     

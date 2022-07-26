@@ -6,7 +6,7 @@ waypoints:
             z: -0.000262498
         action:
             a: passthrough
-            d: 0
+            d: 5
         orientation:
             x: 0
             y: 0

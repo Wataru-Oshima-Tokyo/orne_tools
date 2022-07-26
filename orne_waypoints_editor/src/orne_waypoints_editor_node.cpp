@@ -245,10 +245,10 @@ public:
             marker.pose.position.x = waypoints_.at(i).position.x+ 0.5;
             marker.pose.position.y = waypoints_.at(i).position.y;
             marker.pose.position.z = 3.0;
-            marker.pose.orientation.x = waypoints_.at(i).orientaion.x;
-            marker.pose.orientation.y = waypoints_.at(i).orientaion.y;
-            marker.pose.orientation.z = waypoints_.at(i).orientaion.z;
-            marker.pose.orientation.w = waypoints_.at(i).orientaion.w;
+            marker.pose.orientation.x = waypoints_.at(i).orientation.x;
+            marker.pose.orientation.y = waypoints_.at(i).orientation.y;
+            marker.pose.orientation.z = waypoints_.at(i).orientation.z;
+            marker.pose.orientation.w = waypoints_.at(i).orientation.w;
             marker.scale.z = 0.5;
             marker.color.r = 2.0;
             marker.color.g = 2.0;

@@ -317,7 +317,7 @@ public:
 
 
 
-    void makeWpInteractiveMarker(std::string name, orne_waypoints_msgs::Waypoint point){
+    void makeWpInteractiveMarker(const std::string name, const orne_waypoints_msgs::Waypoint &point){
         InteractiveMarker int_marker;
         int_marker.controls.clear();
         int_marker.header.frame_id = world_frame_;
@@ -404,11 +404,11 @@ public:
             if(wp_node != NULL){
                 for(int i=0; i < wp_node->size(); i++){
                     orne_waypoints_msgs::Waypoint point;
-                    (*wp_node)[i]["point"]["x"] >> point.x;
-                    (*wp_node)[i]["point"]["y"] >> point.y;
-                    (*wp_node)[i]["point"]["z"] >> point.z;
-                    (*wp_node)[i]["point"]["a"] >> point.action;
-                    (*wp_node)[i]["point"]["d"] >> point.duration;
+                    (*wp_node)[i]["point"]["pose"]["x"] >> point.x;
+                    (*wp_node)[i]["point"]["pose"]["y"] >> point.y;
+                    (*wp_node)[i]["point"]["pose"]["z"] >> point.z;
+                    (*wp_node)[i]["point"]["action"]["a"] >> point.action;
+                    (*wp_node)[i]["point"]["action"]["d"] >> point.duration;
                     waypoints_.push_back(point);
                     //I think here I need to push_back the action below
                     

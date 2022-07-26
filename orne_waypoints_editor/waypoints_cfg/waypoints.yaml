@@ -1,22 +1,17 @@
 waypoints:
     - point:
-        x: 0.58111
-        y: -0.958097
-        z: -0.000262498
-        a: passthrough
-        d: 0
-    - point:
-        x: 0.159781
-        y: -2.2544
-        z: -0.000262498
-        a: lookdown
-        d: 5
-    - point:
-        x: -0.0265337
-        y: -3.35514
-        z: -0.000262498
-        a: lookright
-        d: 5 
+        pose:
+            x: 0.58111
+            y: -0.958097
+            z: -0.000262498
+        action:
+            a: passthrough
+            d: 0
+        orientation:
+            x: 0
+            y: 0
+            z: 0
+            w: 0
 finish_pose:
     header:
         seq: 2

@@ -272,7 +272,7 @@ public:
         marker_description_pub_.publish(marker_description_);
     }
 
-    Marker makeWpMarker(bool charge){
+    Marker makeWpMarker(std::string &action){
         Marker marker;
         
 //         marker.scale.x = 0.8;
@@ -281,9 +281,9 @@ public:
         marker.scale.x = 0.5;
         marker.scale.y = 0.5;
         marker.scale.z = 0.5;
-        if(charge){
-            // marker.type = Marker::CUBE;
-            marker.type = Marker::ARROW;
+        if(action=="charge"){
+            marker.type = Marker::CUBE;
+            // marker.type = Marker::ARROW;
             marker.color.r = 2.0;
             marker.color.g = 0.5;
             marker.color.b = 0.8;
@@ -300,7 +300,7 @@ public:
         return marker;
     }
     
-    InteractiveMarkerControl& makeWpControl(InteractiveMarker &msg, bool charge) {
+    InteractiveMarkerControl& makeWpControl(InteractiveMarker &msg, std::string &action) {
         InteractiveMarkerControl control;
         control.markers.clear();
         control.orientation.w = 1;
@@ -309,10 +309,7 @@ public:
         control.orientation.z = 0;
         control.interaction_mode = InteractiveMarkerControl::MOVE_PLANE;
         control.always_visible = true;
-        if(charge)
-            control.markers.push_back(makeWpMarker(true));
-        else
-            control.markers.push_back(makeWpMarker(false));
+        control.markers.push_back(makeWpMarker(action));
         msg.controls.push_back(control);
 
         return msg.controls.back();
@@ -330,11 +327,8 @@ public:
         int_marker.scale = 1;
         int_marker.name = name;
         int_marker.description = "";
-        if (point.action=="charge"){
-            int_marker.controls.push_back(makeWpControl(int_marker,true));
-        }else{
-            int_marker.controls.push_back(makeWpControl(int_marker,false));
-        }
+        int_marker.controls.push_back(makeWpControl(int_marker, &point.action));
+
         
 
         server->insert(int_marker, boost::bind(&WaypointsEditor::processFeedback, this, _1));

@@ -282,7 +282,8 @@ public:
         marker.scale.y = 0.5;
         marker.scale.z = 0.5;
         if(charge){
-            marker.type = Marker::CUBE;
+            // marker.type = Marker::CUBE;
+            marker.type = Marker::ARROW;
             marker.color.r = 2.0;
             marker.color.g = 0.5;
             marker.color.b = 0.8;

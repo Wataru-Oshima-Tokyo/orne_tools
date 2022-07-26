@@ -272,7 +272,7 @@ public:
         marker_description_pub_.publish(marker_description_);
     }
 
-    Marker makeWpMarker(std::string &action){
+    Marker makeWpMarker(const std::string &action){
         Marker marker;
         
 //         marker.scale.x = 0.8;
@@ -300,7 +300,7 @@ public:
         return marker;
     }
     
-    InteractiveMarkerControl& makeWpControl(InteractiveMarker &msg, std::string &action) {
+    InteractiveMarkerControl& makeWpControl(InteractiveMarker &msg, const std::string &action) {
         InteractiveMarkerControl control;
         control.markers.clear();
         control.orientation.w = 1;
@@ -327,7 +327,7 @@ public:
         int_marker.scale = 1;
         int_marker.name = name;
         int_marker.description = "";
-        int_marker.controls.push_back(makeWpControl(int_marker, &point.action));
+        int_marker.controls.push_back(makeWpControl(int_marker, point.action));
 
         
 

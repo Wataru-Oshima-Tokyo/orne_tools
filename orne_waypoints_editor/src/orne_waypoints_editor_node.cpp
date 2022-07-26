@@ -509,12 +509,19 @@ public:
             
             ofs << "waypoints:" << std::endl;
             for(int i=0; i < waypoints_.size(); i++){
-                ofs << "    " << "- point:" << std::endl;
-                ofs << "        x: " << waypoints_[i].x << std::endl;
-                ofs << "        y: " << waypoints_[i].y << std::endl;
-                ofs << "        z: " << waypoints_[i].z << std::endl;
-                ofs << "        a: " << waypoints_[i].action  << std::endl;
-                ofs << "        d: " << waypoints_[i].duration  << std::endl;
+                ofs << "    - point:" << std::endl;
+                ofs << "        pose:" << std::endl;
+                ofs << "            x: " << waypoints_[i].x << std::endl;
+                ofs << "            y: " << waypoints_[i].y << std::endl;
+                ofs << "            z: " << waypoints_[i].z << std::endl;
+                ofs << "        pose:" << std::endl;
+                ofs << "            a: " << waypoints_[i].action  << std::endl;
+                ofs << "            d: " << waypoints_[i].duration  << std::endl;
+                ofs << "        orientation:" << std::endl;
+                ofs << "            x: "        << 0;
+                ofs << "            y: "        << 0;
+                ofs << "            z: "        << 0;
+                ofs << "            w: "        << 0;
             }
             
             ofs << "finish_pose:"           << std::endl;

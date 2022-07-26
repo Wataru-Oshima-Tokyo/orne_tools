@@ -282,8 +282,8 @@ public:
         marker.scale.y = 0.5;
         marker.scale.z = 0.5;
         if(action=="charge"){
-            marker.type = Marker::CUBE;
-            // marker.type = Marker::ARROW;
+            // marker.type = Marker::CUBE;
+            marker.type = Marker::ARROW;
             marker.color.r = 2.0;
             marker.color.g = 0.5;
             marker.color.b = 0.8;
@@ -307,7 +307,10 @@ public:
         control.orientation.x = 0;
         control.orientation.y = 1;
         control.orientation.z = 0;
-        control.interaction_mode = InteractiveMarkerControl::MOVE_PLANE;
+        if(action=="charge")
+            control.interaction_mode = InteractiveMarkerControl::MOVE_ROTATE;
+        else
+            control.interaction_mode = InteractiveMarkerControl::MOVE_PLANE;
         control.always_visible = true;
         control.markers.push_back(makeWpMarker(action));
         msg.controls.push_back(control);

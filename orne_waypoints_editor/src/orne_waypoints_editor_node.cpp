@@ -170,7 +170,8 @@ public:
         int wp_num = std::stoi(feedback->marker_name);
         waypoints_.erase(waypoints_.begin() + wp_num);
         for (int i=wp_num; i<waypoints_.size(); i++) {
-            geometry_msgs::Pose p;
+            // geometry_msgs::Pose p;
+            orne_waypoints_msgs::Waypoint p;
             p.position.x = waypoints_.at(i).x;
             p.position.y = waypoints_.at(i).y;
             p.position.z = waypoints_.at(i).z;

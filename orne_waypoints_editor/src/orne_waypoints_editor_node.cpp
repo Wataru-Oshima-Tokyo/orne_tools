@@ -106,6 +106,10 @@ public:
           waypoints_.at(std::stoi(feedback->marker_name)).position.x = feedback->pose.position.x;
           waypoints_.at(std::stoi(feedback->marker_name)).position.y = feedback->pose.position.y;
           waypoints_.at(std::stoi(feedback->marker_name)).position.z = feedback->pose.position.z;
+          waypoints_.at(std::stoi(feedback->marker_name)).orientation.x = feedback->pose.orientation.x;
+          waypoints_.at(std::stoi(feedback->marker_name)).orientation.y = feedback->pose.orientation.y;
+          waypoints_.at(std::stoi(feedback->marker_name)).orientation.z = feedback->pose.orientation.z;
+          waypoints_.at(std::stoi(feedback->marker_name)).orientation.w = feedback->pose.orientation.w;
         }
     }
 

@@ -460,7 +460,7 @@ public:
 
     void waypointsVizCallback(const geometry_msgs::PointStamped &msg){
         orne_waypoints_msgs::Pose _wp;
-        _wp.position.x = msg.point.x;
+        _wp.position.x = msg.pose.x;
         _wp.position.y = msg.point.y;
         _wp.position.z = msg.point.z;
         _wp.position.action = "passthrough";

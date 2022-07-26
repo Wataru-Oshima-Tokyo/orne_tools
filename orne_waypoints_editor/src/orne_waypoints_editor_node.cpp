@@ -103,9 +103,9 @@ public:
         if (feedback->marker_name == "finish_pose") {
             finish_pose_.pose = feedback->pose;
         } else {
-          waypoints_.at(std::stoi(feedback->marker_name)).x = feedback->pose.position.x;
-          waypoints_.at(std::stoi(feedback->marker_name)).y = feedback->pose.position.y;
-          waypoints_.at(std::stoi(feedback->marker_name)).z = feedback->pose.position.z;
+          waypoints_.at(std::stoi(feedback->marker_name)).position.x = feedback->pose.position.x;
+          waypoints_.at(std::stoi(feedback->marker_name)).position.y = feedback->pose.position.y;
+          waypoints_.at(std::stoi(feedback->marker_name)).position.z = feedback->pose.position.z;
         }
     }
 
@@ -208,9 +208,9 @@ public:
 
         for (int i=wp_num; i<waypoints_.size()-1; i++) {
             geometry_msgs::Pose p;
-            p.position.x = waypoints_.at(i).x;
-            p.position.y = waypoints_.at(i).y;
-            p.position.z = waypoints_.at(i).z;
+            p.position.x = waypoints_.at(i).position.x;
+            p.position.y = waypoints_.at(i).position.y;
+            p.position.z = waypoints_.at(i).position.z;
             server->setPose(std::to_string(i), p);
         }
         // makeWpInteractiveMarker(std::to_string(waypoints_.size()-1), waypoints_.at(waypoints_.size()-1));
@@ -327,7 +327,7 @@ public:
         int_marker.scale = 1;
         int_marker.name = name;
         int_marker.description = "";
-        int_marker.controls.push_back(makeWpControl(int_marker, point.action));
+        int_marker.controls.push_back(makeWpControl(int_marker, point.position.action));
 
         
 
@@ -449,9 +449,9 @@ public:
 
     void waypointsVizCallback(const geometry_msgs::PointStamped &msg){
         orne_waypoints_msgs::Pose _wp;
-        _wp.x = msg.point.position.x;
-        _wp.y = msg.point.position.y;
-        _wp.z = msg.point.position.z;
+        _wp.position.x = msg.point.x;
+        _wp.position.y = msg.point.y;
+        _wp.position.z = msg.point.z;
         _wp.position.action = "passthrough";
         _wp.position.duration = 0;
         ROS_INFO_STREAM("point = " << msg);

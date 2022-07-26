@@ -529,10 +529,10 @@ public:
                 ofs << "            a: " << waypoints_[i].position.action  << std::endl;
                 ofs << "            d: " << waypoints_[i].position.duration  << std::endl;
                 ofs << "        orientation:" << std::endl;
-                ofs << "            x: "        << waypoints_[i].orientaion.x << std::endl;
-                ofs << "            y: "        << waypoints_[i].orientaion.y << std::endl;
-                ofs << "            z: "        << waypoints_[i].orientaion.z << std::endl;
-                ofs << "            w: "        << waypoints_[i].orientaion.w << std::endl;
+                ofs << "            x: "        << waypoints_[i].orientation.x << std::endl;
+                ofs << "            y: "        << waypoints_[i].orientation.y << std::endl;
+                ofs << "            z: "        << waypoints_[i].orientation.z << std::endl;
+                ofs << "            w: "        << waypoints_[i].orientation.w << std::endl;
             }
             
             ofs << "finish_pose:"           << std::endl;

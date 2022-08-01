@@ -130,6 +130,7 @@ public:
         wp_menu_handler_.insert(wp_action_menu_handler, "Look Right", boost::bind(&WaypointsEditor::actionCb, this, _1));
         wp_menu_handler_.insert(wp_action_menu_handler, "Charge", boost::bind(&WaypointsEditor::actionCb, this, _1));
         wp_menu_handler_.insert(wp_action_menu_handler, "Stop", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        wp_menu_handler_.insert(wp_action_menu_handler, "Stop", boost::bind(&WaypointsEditor::actionCb, this, _1));
     }
 
     void actionCb(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
@@ -164,6 +165,10 @@ public:
         }else if(feedback->menu_entry_id == 12){
             ROS_INFO_STREAM("Stop");
             waypoints_.at(wp_num).position.action = "stop";
+            waypoints_.at(wp_num).position.duration = INT_MAX;
+        }else if(feedback->menu_entry_id == 12){
+            ROS_INFO_STREAM("P2P");
+            waypoints_.at(wp_num).position.action = "p2p";
             waypoints_.at(wp_num).position.duration = INT_MAX;
         }
 
@@ -311,6 +316,15 @@ public:
             marker.color.g = 1.0;
             marker.color.b = 0.8;
             marker.color.a = 0.5;
+        else if (action=="p2p"){
+            marker.type = Marker::ARROW;
+            marker.scale.x = 0.7;
+            marker.scale.y = 0.2;
+            marker.scale.z = 0.2;
+            marker.color.r = 0.3;
+            marker.color.g = 0.3;
+            marker.color.b = 0.8;
+            marker.color.a = 0.1;
         } else{
             marker.type = Marker::SPHERE;
             marker.scale.x = 0.5;
@@ -332,7 +346,7 @@ public:
         control.orientation.x = 0;
         control.orientation.y = 1;
         control.orientation.z = 0;
-        if(action=="charge" || action=="stop")
+        if(action=="charge" || action=="stop" || action=="p2p")
             control.interaction_mode = InteractiveMarkerControl::MOVE_ROTATE;
         else
             control.interaction_mode = InteractiveMarkerControl::MOVE_PLANE;

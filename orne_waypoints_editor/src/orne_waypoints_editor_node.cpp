@@ -316,7 +316,7 @@ public:
             marker.color.g = 1.0;
             marker.color.b = 0.8;
             marker.color.a = 0.5;
-        else if (action=="p2p"){
+        }else if (action=="p2p"){
             marker.type = Marker::ARROW;
             marker.scale.x = 0.7;
             marker.scale.y = 0.2;

@@ -114,23 +114,28 @@ public:
     }
 
     void initMenu(){
-        interactive_markers::MenuHandler::EntryHandle wp_delete_menu_handler = wp_menu_handler_.insert("delete", boost::bind(&WaypointsEditor::wpDeleteCb, this, _1));
+        interactive_markers::MenuHandler::EntryHandle wp_delete_menu_handler = wp_menu_handler_.insert("delete", boost::bind(&WaypointsEditor::wpDeleteCb, this, _1)); //3
         interactive_markers::MenuHandler::EntryHandle wp_insert_menu_handler = wp_menu_handler_.insert("Insert");
         interactive_markers::MenuHandler::EntryHandle wp_action_menu_handler = wp_menu_handler_.insert("setAction");
 
-        interactive_markers::MenuHandler::EntryHandle wp_mode = wp_menu_handler_.insert(wp_insert_menu_handler, "Prev", boost::bind(&WaypointsEditor::wpInsertCb, this, _1));
-        wp_mode = wp_menu_handler_.insert(wp_insert_menu_handler, "Next", boost::bind(&WaypointsEditor::wpInsertCb, this, _1));
+        interactive_markers::MenuHandler::EntryHandle wp_mode = wp_menu_handler_.insert(wp_insert_menu_handler, "Prev", boost::bind(&WaypointsEditor::wpInsertCb, this, _1)); //4
+        wp_mode = wp_menu_handler_.insert(wp_insert_menu_handler, "Next", boost::bind(&WaypointsEditor::wpInsertCb, this, _1)); //5
 
 
         //set action
-        interactive_markers::MenuHandler::EntryHandle action_mode = wp_menu_handler_.insert(wp_action_menu_handler, "Pass Through", boost::bind(&WaypointsEditor::actionCb, this, _1));
-        wp_menu_handler_.insert(wp_action_menu_handler, "Look Up", boost::bind(&WaypointsEditor::actionCb, this, _1));
-        wp_menu_handler_.insert(wp_action_menu_handler, "Look Down", boost::bind(&WaypointsEditor::actionCb, this, _1));
-        wp_menu_handler_.insert(wp_action_menu_handler, "Look Left", boost::bind(&WaypointsEditor::actionCb, this, _1));
-        wp_menu_handler_.insert(wp_action_menu_handler, "Look Right", boost::bind(&WaypointsEditor::actionCb, this, _1));
-        wp_menu_handler_.insert(wp_action_menu_handler, "Charge", boost::bind(&WaypointsEditor::actionCb, this, _1));
-        wp_menu_handler_.insert(wp_action_menu_handler, "Stop", boost::bind(&WaypointsEditor::actionCb, this, _1));
-        wp_menu_handler_.insert(wp_action_menu_handler, "P2P", boost::bind(&WaypointsEditor::actionCb, this, _1));
+        interactive_markers::MenuHandler::EntryHandle action_mode = wp_menu_handler_.insert(wp_action_menu_handler, "Pass Through", boost::bind(&WaypointsEditor::actionCb, this, _1)); //6
+        wp_menu_handler_.insert(wp_action_menu_handler, "Look Up", boost::bind(&WaypointsEditor::actionCb, this, _1)); //7
+        wp_menu_handler_.insert(wp_action_menu_handler, "Look Down", boost::bind(&WaypointsEditor::actionCb, this, _1)); //8
+        wp_menu_handler_.insert(wp_action_menu_handler, "Look Left", boost::bind(&WaypointsEditor::actionCb, this, _1)); //9
+        wp_menu_handler_.insert(wp_action_menu_handler, "Look Right", boost::bind(&WaypointsEditor::actionCb, this, _1)); //10
+        wp_menu_handler_.insert(wp_action_menu_handler, "Charge", boost::bind(&WaypointsEditor::actionCb, this, _1)); //11
+        wp_menu_handler_.insert(wp_action_menu_handler, "Stop", boost::bind(&WaypointsEditor::actionCb, this, _1)); //12
+        wp_menu_handler_.insert(wp_action_menu_handler, "P2P", boost::bind(&WaypointsEditor::actionCb, this, _1)); //13
+        interactive_markers::MenuHandler::EntryHandle voice_menu_handler = wp_menu_handler_.insert(wp_action_menu_handler, "Speak", boost::bind(&WaypointsEditor::actionCb, this, _1)); //14
+
+        //set wav file
+        interactive_markers::MenuHandler::EntryHandle specific_mode = wp_menu_handler_.insert(voice_menu_handler, "MG400", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //15
+        wp_menu_handler_.insert(voice_menu_handler, "CR5", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //16
     }
 
     void actionCb(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
@@ -176,6 +181,18 @@ public:
         server->applyChanges();
     }
 
+    void setExplanation(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
+        ROS_INFO_STREAM("menu_entry_id : " << feedback->menu_entry_id);
+        int wp_num= std::stoi(feedback->marker_name);
+        waypoints_.at(wp_num).position.action = "speak";
+        waypoints_.at(wp_num).position.duration = INT_MAX;
+        if(feedback->menu_entry_id == 14){
+            ROS_INFO_STREAM("MG400");
+            waypoints_.at(wp_num).position.file = "mg400";
+        }
+        makeWpsInteractiveMarker();
+        server->applyChanges();
+    }
     
 
 
@@ -605,6 +622,10 @@ public:
             ROS_WARN_STREAM("Please set finish_pose");
             return false;
         }
+
+    }
+
+
 
     }
 

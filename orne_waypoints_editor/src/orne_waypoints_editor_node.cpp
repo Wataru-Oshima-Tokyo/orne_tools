@@ -380,7 +380,7 @@ public:
         control.orientation.x = 0;
         control.orientation.y = 1;
         control.orientation.z = 0;
-        if(action=="charge" || action=="stop" || action=="sepak")
+        if(action=="charge" || action=="stop" || action=="speak")
             control.interaction_mode = InteractiveMarkerControl::MOVE_ROTATE;
         else
             control.interaction_mode = InteractiveMarkerControl::MOVE_PLANE;

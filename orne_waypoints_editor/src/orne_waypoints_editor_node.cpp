@@ -485,7 +485,7 @@ public:
                     (*wp_node)[i]["point"]["orientation"]["y"] >> pose.orientation.y;
                     (*wp_node)[i]["point"]["orientation"]["z"] >> pose.orientation.z;
                     (*wp_node)[i]["point"]["orientation"]["w"] >> pose.orientation.w;
-                    waypoints_.push_back(point);
+                    waypoints_.push_back(pose);
                     //I think here I need to push_back the action below
                     
                 }
@@ -533,7 +533,7 @@ public:
         // _wp.position.z = msg.pose.position.z;
         _wp.position.action = "passthrough";
         _wp.position.duration = 0;
-        _wp.position.duration = "";
+        _wp.position.file = "";
         // _wp.orientation.x = msg.pose.orientation.x;
         // _wp.orientation.y = msg.pose.orientation.y;
         // _wp.orientation.z = msg.pose.orientation.z;
@@ -551,12 +551,12 @@ public:
             tf::StampedTransform robot_gl;
             try{
                 tf_listener_.lookupTransform(world_frame_, robot_frame_, msg.header.stamp, robot_gl);
-                orne_waypoints_msgs::Pose point;
-                point.position.x = robot_gl.getOrigin().x();
-                point.position.y = robot_gl.getOrigin().y();
-                point.position.z = robot_gl.getOrigin().z();
+                orne_waypoints_msgs::Pose pose;
+                pose.position.x = robot_gl.getOrigin().x();
+                pose.position.y = robot_gl.getOrigin().y();
+                pose.position.z = robot_gl.getOrigin().z();
                 makeWpInteractiveMarker(std::to_string(waypoints_.size()), point);
-                waypoints_.push_back(point);
+                waypoints_.push_back(pose);
                 server->applyChanges();
                 saved_time = msg.header.stamp;
             }catch(tf::TransformException &e){

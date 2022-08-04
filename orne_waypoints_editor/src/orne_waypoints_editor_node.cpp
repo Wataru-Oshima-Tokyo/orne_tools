@@ -147,34 +147,42 @@ public:
             ROS_INFO_STREAM("Pass Through");
             waypoints_.at(wp_num).position.action = "passthrough";
             waypoints_.at(wp_num).position.duration = 0;
+            waypoints_.at(wp_num).position.file = "";
         }else if(feedback->menu_entry_id == 7){
             ROS_INFO_STREAM("Look Up");
             waypoints_.at(wp_num).position.action = "lookup";
             waypoints_.at(wp_num).position.duration = 5;
+            waypoints_.at(wp_num).position.file = "";
         }else if(feedback->menu_entry_id == 8){
             ROS_INFO_STREAM("Look Down");
             waypoints_.at(wp_num).position.action = "lookdown";
             waypoints_.at(wp_num).position.duration = 5;
+            waypoints_.at(wp_num).position.file = "";
         }else if(feedback->menu_entry_id == 9){
             ROS_INFO_STREAM("Look Left");
             waypoints_.at(wp_num).position.action = "lookleft";
             waypoints_.at(wp_num).position.duration = 5;
+            waypoints_.at(wp_num).position.file = "";
         }else if(feedback->menu_entry_id == 10){
             ROS_INFO_STREAM("Look Right");
             waypoints_.at(wp_num).position.action = "lookright";
             waypoints_.at(wp_num).position.duration = 5;
+            waypoints_.at(wp_num).position.file = "";
         }else if(feedback->menu_entry_id == 11){
             ROS_INFO_STREAM("Charge");
             waypoints_.at(wp_num).position.action = "charge";
             waypoints_.at(wp_num).position.duration = 5;
+            waypoints_.at(wp_num).position.file = "";
         }else if(feedback->menu_entry_id == 12){
             ROS_INFO_STREAM("Stop");
             waypoints_.at(wp_num).position.action = "stop";
             waypoints_.at(wp_num).position.duration = INT_MAX;
+            waypoints_.at(wp_num).position.file = "";
         }else if(feedback->menu_entry_id == 13){
             ROS_INFO_STREAM("P2P");
             waypoints_.at(wp_num).position.action = "p2p";
             waypoints_.at(wp_num).position.duration = INT_MAX;
+            waypoints_.at(wp_num).position.file = "";
         }
 
         makeWpsInteractiveMarker();
@@ -466,16 +474,17 @@ public:
 
             if(wp_node != NULL){
                 for(int i=0; i < wp_node->size(); i++){
-                    orne_waypoints_msgs::Pose point;
-                    (*wp_node)[i]["point"]["pose"]["x"] >> point.position.x;
-                    (*wp_node)[i]["point"]["pose"]["y"] >> point.position.y;
-                    (*wp_node)[i]["point"]["pose"]["z"] >> point.position.z;
-                    (*wp_node)[i]["point"]["action"]["a"] >> point.position.action;
-                    (*wp_node)[i]["point"]["action"]["d"] >> point.position.duration;
-                    (*wp_node)[i]["point"]["orientation"]["x"] >> point.orientation.x;
-                    (*wp_node)[i]["point"]["orientation"]["y"] >> point.orientation.y;
-                    (*wp_node)[i]["point"]["orientation"]["z"] >> point.orientation.z;
-                    (*wp_node)[i]["point"]["orientation"]["w"] >> point.orientation.w;
+                    orne_waypoints_msgs::Pose pose;
+                    (*wp_node)[i]["point"]["pose"]["x"] >> pose.position.x;
+                    (*wp_node)[i]["point"]["pose"]["y"] >> pose.position.y;
+                    (*wp_node)[i]["point"]["pose"]["z"] >> pose.position.z;
+                    (*wp_node)[i]["point"]["action"]["a"] >> pose.position.action;
+                    (*wp_node)[i]["point"]["action"]["d"] >> pose.position.duration;
+                    (*wp_node)[i]["point"]["action"]["f"] >> pose.position.file;
+                    (*wp_node)[i]["point"]["orientation"]["x"] >> pose.orientation.x;
+                    (*wp_node)[i]["point"]["orientation"]["y"] >> pose.orientation.y;
+                    (*wp_node)[i]["point"]["orientation"]["z"] >> pose.orientation.z;
+                    (*wp_node)[i]["point"]["orientation"]["w"] >> pose.orientation.w;
                     waypoints_.push_back(point);
                     //I think here I need to push_back the action below
                     
@@ -524,6 +533,7 @@ public:
         // _wp.position.z = msg.pose.position.z;
         _wp.position.action = "passthrough";
         _wp.position.duration = 0;
+        _wp.position.duration = "";
         // _wp.orientation.x = msg.pose.orientation.x;
         // _wp.orientation.y = msg.pose.orientation.y;
         // _wp.orientation.z = msg.pose.orientation.z;
@@ -591,6 +601,7 @@ public:
                 ofs << "        action:" << std::endl;
                 ofs << "            a: " << waypoints_[i].position.action  << std::endl;
                 ofs << "            d: " << waypoints_[i].position.duration  << std::endl;
+                ofs << "            f: " << waypoints_[i].position.file  << std::endl;
                 ofs << "        orientation:" << std::endl;
                 ofs << "            x: "        << waypoints_[i].orientation.x << std::endl;
                 ofs << "            y: "        << waypoints_[i].orientation.y << std::endl;

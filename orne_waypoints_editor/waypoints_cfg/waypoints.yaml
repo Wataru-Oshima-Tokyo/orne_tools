@@ -7,7 +7,7 @@ waypoints:
         action:
             a: passthrough
             d: 5
-            f: MG400
+            f: mg400
         orientation:
             x: 0
             y: 0

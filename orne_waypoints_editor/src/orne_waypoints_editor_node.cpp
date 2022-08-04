@@ -131,11 +131,11 @@ public:
         wp_menu_handler_.insert(wp_action_menu_handler, "Charge", boost::bind(&WaypointsEditor::actionCb, this, _1)); //11
         wp_menu_handler_.insert(wp_action_menu_handler, "Stop", boost::bind(&WaypointsEditor::actionCb, this, _1)); //12
         wp_menu_handler_.insert(wp_action_menu_handler, "P2P", boost::bind(&WaypointsEditor::actionCb, this, _1)); //13
-        interactive_markers::MenuHandler::EntryHandle voice_menu_handler = wp_menu_handler_.insert(wp_action_menu_handler, "Speak", boost::bind(&WaypointsEditor::actionCb, this, _1)); 
+        interactive_markers::MenuHandler::EntryHandle voice_menu_handler = wp_menu_handler_.insert(wp_action_menu_handler, "Speak", boost::bind(&WaypointsEditor::actionCb, this, _1)); //14
 
         //set wav file
-        interactive_markers::MenuHandler::EntryHandle specific_mode = wp_menu_handler_.insert(voice_menu_handler, "MG400", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //14
-        wp_menu_handler_.insert(voice_menu_handler, "CR Series", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //15
+        interactive_markers::MenuHandler::EntryHandle specific_mode = wp_menu_handler_.insert(voice_menu_handler, "MG400", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //15
+        wp_menu_handler_.insert(voice_menu_handler, "CR Series", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //16
     }
 
     void actionCb(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
@@ -147,42 +147,42 @@ public:
             ROS_INFO_STREAM("Pass Through");
             waypoints_.at(wp_num).position.action = "passthrough";
             waypoints_.at(wp_num).position.duration = 0;
-            waypoints_.at(wp_num).position.file = "";
+            waypoints_.at(wp_num).position.file = "null";
         }else if(feedback->menu_entry_id == 7){
             ROS_INFO_STREAM("Look Up");
             waypoints_.at(wp_num).position.action = "lookup";
             waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "";
+            waypoints_.at(wp_num).position.file = "null";
         }else if(feedback->menu_entry_id == 8){
             ROS_INFO_STREAM("Look Down");
             waypoints_.at(wp_num).position.action = "lookdown";
             waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "";
+            waypoints_.at(wp_num).position.file = "null";
         }else if(feedback->menu_entry_id == 9){
             ROS_INFO_STREAM("Look Left");
             waypoints_.at(wp_num).position.action = "lookleft";
             waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "";
+            waypoints_.at(wp_num).position.file = "null";
         }else if(feedback->menu_entry_id == 10){
             ROS_INFO_STREAM("Look Right");
             waypoints_.at(wp_num).position.action = "lookright";
             waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "";
+            waypoints_.at(wp_num).position.file = "null";
         }else if(feedback->menu_entry_id == 11){
             ROS_INFO_STREAM("Charge");
             waypoints_.at(wp_num).position.action = "charge";
             waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "";
+            waypoints_.at(wp_num).position.file = "null";
         }else if(feedback->menu_entry_id == 12){
             ROS_INFO_STREAM("Stop");
             waypoints_.at(wp_num).position.action = "stop";
             waypoints_.at(wp_num).position.duration = INT_MAX;
-            waypoints_.at(wp_num).position.file = "";
+            waypoints_.at(wp_num).position.file = "null";
         }else if(feedback->menu_entry_id == 13){
             ROS_INFO_STREAM("P2P");
             waypoints_.at(wp_num).position.action = "p2p";
             waypoints_.at(wp_num).position.duration = INT_MAX;
-            waypoints_.at(wp_num).position.file = "";
+            waypoints_.at(wp_num).position.file = "null";
         }
 
         makeWpsInteractiveMarker();
@@ -545,7 +545,7 @@ public:
         // _wp.position.z = msg.pose.position.z;
         _wp.position.action = "passthrough";
         _wp.position.duration = 0;
-        _wp.position.file = "";
+        _wp.position.file = "null";
         // _wp.orientation.x = msg.pose.orientation.x;
         // _wp.orientation.y = msg.pose.orientation.y;
         // _wp.orientation.z = msg.pose.orientation.z;

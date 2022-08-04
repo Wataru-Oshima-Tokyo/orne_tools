@@ -147,42 +147,42 @@ public:
             ROS_INFO_STREAM("Pass Through");
             waypoints_.at(wp_num).position.action = "passthrough";
             waypoints_.at(wp_num).position.duration = 0;
-            waypoints_.at(wp_num).position.file = "null";
+            waypoints_.at(wp_num).position.file = "none";
         }else if(feedback->menu_entry_id == 7){
             ROS_INFO_STREAM("Look Up");
             waypoints_.at(wp_num).position.action = "lookup";
             waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "null";
+            waypoints_.at(wp_num).position.file = "none";
         }else if(feedback->menu_entry_id == 8){
             ROS_INFO_STREAM("Look Down");
             waypoints_.at(wp_num).position.action = "lookdown";
             waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "null";
+            waypoints_.at(wp_num).position.file = "none";
         }else if(feedback->menu_entry_id == 9){
             ROS_INFO_STREAM("Look Left");
             waypoints_.at(wp_num).position.action = "lookleft";
             waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "null";
+            waypoints_.at(wp_num).position.file = "none";
         }else if(feedback->menu_entry_id == 10){
             ROS_INFO_STREAM("Look Right");
             waypoints_.at(wp_num).position.action = "lookright";
             waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "null";
+            waypoints_.at(wp_num).position.file = "none";
         }else if(feedback->menu_entry_id == 11){
             ROS_INFO_STREAM("Charge");
             waypoints_.at(wp_num).position.action = "charge";
             waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "null";
+            waypoints_.at(wp_num).position.file = "none";
         }else if(feedback->menu_entry_id == 12){
             ROS_INFO_STREAM("Stop");
             waypoints_.at(wp_num).position.action = "stop";
             waypoints_.at(wp_num).position.duration = INT_MAX;
-            waypoints_.at(wp_num).position.file = "null";
+            waypoints_.at(wp_num).position.file = "none";
         }else if(feedback->menu_entry_id == 13){
             ROS_INFO_STREAM("P2P");
             waypoints_.at(wp_num).position.action = "p2p";
             waypoints_.at(wp_num).position.duration = INT_MAX;
-            waypoints_.at(wp_num).position.file = "null";
+            waypoints_.at(wp_num).position.file = "none";
         }
 
         makeWpsInteractiveMarker();
@@ -545,7 +545,7 @@ public:
         // _wp.position.z = msg.pose.position.z;
         _wp.position.action = "passthrough";
         _wp.position.duration = 0;
-        _wp.position.file = "null";
+        _wp.position.file = "none";
         // _wp.orientation.x = msg.pose.orientation.x;
         // _wp.orientation.y = msg.pose.orientation.y;
         // _wp.orientation.z = msg.pose.orientation.z;

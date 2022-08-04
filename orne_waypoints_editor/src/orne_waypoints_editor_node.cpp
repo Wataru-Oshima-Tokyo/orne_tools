@@ -555,7 +555,7 @@ public:
                 pose.position.x = robot_gl.getOrigin().x();
                 pose.position.y = robot_gl.getOrigin().y();
                 pose.position.z = robot_gl.getOrigin().z();
-                makeWpInteractiveMarker(std::to_string(waypoints_.size()), point);
+                makeWpInteractiveMarker(std::to_string(waypoints_.size()), pose);
                 waypoints_.push_back(pose);
                 server->applyChanges();
                 saved_time = msg.header.stamp;

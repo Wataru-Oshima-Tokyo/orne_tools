@@ -131,11 +131,11 @@ public:
         wp_menu_handler_.insert(wp_action_menu_handler, "Charge", boost::bind(&WaypointsEditor::actionCb, this, _1)); //11
         wp_menu_handler_.insert(wp_action_menu_handler, "Stop", boost::bind(&WaypointsEditor::actionCb, this, _1)); //12
         wp_menu_handler_.insert(wp_action_menu_handler, "P2P", boost::bind(&WaypointsEditor::actionCb, this, _1)); //13
-        interactive_markers::MenuHandler::EntryHandle voice_menu_handler = wp_menu_handler_.insert(wp_action_menu_handler, "Speak", boost::bind(&WaypointsEditor::actionCb, this, _1)); //14
+        interactive_markers::MenuHandler::EntryHandle voice_menu_handler = wp_menu_handler_.insert(wp_action_menu_handler, "Speak", boost::bind(&WaypointsEditor::actionCb, this, _1)); 
 
         //set wav file
-        interactive_markers::MenuHandler::EntryHandle specific_mode = wp_menu_handler_.insert(voice_menu_handler, "MG400", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //15
-        wp_menu_handler_.insert(voice_menu_handler, "CR5", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //16
+        interactive_markers::MenuHandler::EntryHandle specific_mode = wp_menu_handler_.insert(voice_menu_handler, "MG400", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //14
+        wp_menu_handler_.insert(voice_menu_handler, "CR Series", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //15
     }
 
     void actionCb(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
@@ -197,6 +197,9 @@ public:
         if(feedback->menu_entry_id == 14){
             ROS_INFO_STREAM("MG400");
             waypoints_.at(wp_num).position.file = "mg400";
+        }else if (feedback->menu_entry_id == 15){
+            ROS_INFO_STREAM("CRseries");
+            waypoints_.at(wp_num).position.file = "crseries";
         }
         makeWpsInteractiveMarker();
         server->applyChanges();

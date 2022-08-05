@@ -136,6 +136,9 @@ public:
         //set wav file
         interactive_markers::MenuHandler::EntryHandle specific_mode = wp_menu_handler_.insert(voice_menu_handler, "MG400", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //15
         wp_menu_handler_.insert(voice_menu_handler, "CR Series", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //16
+        wp_menu_handler_.insert(voice_menu_handler, "Agile X", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //17
+        wp_menu_handler_.insert(voice_menu_handler, "Unitree Go1", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //18
+        
     }
 
     void actionCb(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
@@ -200,6 +203,12 @@ public:
         }else if (feedback->menu_entry_id == 16){
             ROS_INFO_STREAM("CRseries");
             waypoints_.at(wp_num).position.file = "crseries";
+        }else if (feedback->menu_entry_id == 17){
+            ROS_INFO_STREAM("Agile X");
+            waypoints_.at(wp_num).position.file = "agilex";
+        }else if (feedback->menu_entry_id == 18){
+            ROS_INFO_STREAM("Unitree Go1");
+            waypoints_.at(wp_num).position.file = "unitreego1";
         }
         makeWpsInteractiveMarker();
         server->applyChanges();
@@ -274,7 +283,9 @@ public:
         for(int i=0; i!=waypoints_.size(); i++){
             Marker marker;
             marker.type = Marker::TEXT_VIEW_FACING;
-            marker.text = std::to_string(i) +":" +waypoints_.at(i).position.action ;
+            marker.text = std::to_string(i) +":" +waypoints_.at(i).position.action;
+            if (waypoints_.at(i).position.action == "speak")
+                marker.text += ": " + waypoints_.at(i).position.file;
             marker.header.frame_id = world_frame_;
             marker.header.stamp = ros::Time(0);
             std::stringstream name;

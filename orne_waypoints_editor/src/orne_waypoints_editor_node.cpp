@@ -194,10 +194,10 @@ public:
         int wp_num= std::stoi(feedback->marker_name);
         waypoints_.at(wp_num).position.action = "speak";
         waypoints_.at(wp_num).position.duration = INT_MAX;
-        if(feedback->menu_entry_id == 14){
+        if(feedback->menu_entry_id == 15){
             ROS_INFO_STREAM("MG400");
             waypoints_.at(wp_num).position.file = "mg400";
-        }else if (feedback->menu_entry_id == 15){
+        }else if (feedback->menu_entry_id == 16){
             ROS_INFO_STREAM("CRseries");
             waypoints_.at(wp_num).position.file = "crseries";
         }
@@ -236,6 +236,7 @@ public:
             wp.position.z = p.position.z;
             wp.position.action = "passthrough";
             wp.position.duration =0;
+            wp.position.file = "none"; 
             waypoints_.insert(waypoints_.begin() + wp_num, wp);
 
         } else if (feedback->menu_entry_id == 5) {
@@ -245,6 +246,7 @@ public:
             wp.position.z = p.position.z;
             wp.position.action = "passthrough";
             wp.position.duration =0;
+            wp.position.file = "none"; 
             waypoints_.insert(waypoints_.begin() + wp_num + 1, wp);
         }
 

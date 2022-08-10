@@ -124,20 +124,20 @@ public:
 
         //set action
         interactive_markers::MenuHandler::EntryHandle action_mode = wp_menu_handler_.insert(wp_action_menu_handler, "Pass Through", boost::bind(&WaypointsEditor::actionCb, this, _1)); //6
-        wp_menu_handler_.insert(wp_action_menu_handler, "Look Up", boost::bind(&WaypointsEditor::actionCb, this, _1)); //7
-        wp_menu_handler_.insert(wp_action_menu_handler, "Look Down", boost::bind(&WaypointsEditor::actionCb, this, _1)); //8
-        wp_menu_handler_.insert(wp_action_menu_handler, "Look Left", boost::bind(&WaypointsEditor::actionCb, this, _1)); //9
-        wp_menu_handler_.insert(wp_action_menu_handler, "Look Right", boost::bind(&WaypointsEditor::actionCb, this, _1)); //10
-        wp_menu_handler_.insert(wp_action_menu_handler, "Charge", boost::bind(&WaypointsEditor::actionCb, this, _1)); //11
-        wp_menu_handler_.insert(wp_action_menu_handler, "Stop", boost::bind(&WaypointsEditor::actionCb, this, _1)); //12
-        wp_menu_handler_.insert(wp_action_menu_handler, "P2P", boost::bind(&WaypointsEditor::actionCb, this, _1)); //13
-        interactive_markers::MenuHandler::EntryHandle voice_menu_handler = wp_menu_handler_.insert(wp_action_menu_handler, "Speak", boost::bind(&WaypointsEditor::actionCb, this, _1)); //14
+        // wp_menu_handler_.insert(wp_action_menu_handler, "Look Up", boost::bind(&WaypointsEditor::actionCb, this, _1)); //7
+        // wp_menu_handler_.insert(wp_action_menu_handler, "Look Down", boost::bind(&WaypointsEditor::actionCb, this, _1)); //8
+        // wp_menu_handler_.insert(wp_action_menu_handler, "Look Left", boost::bind(&WaypointsEditor::actionCb, this, _1)); //9
+        // wp_menu_handler_.insert(wp_action_menu_handler, "Look Right", boost::bind(&WaypointsEditor::actionCb, this, _1)); //10
+        wp_menu_handler_.insert(wp_action_menu_handler, "Charge", boost::bind(&WaypointsEditor::actionCb, this, _1)); //11 ->7
+        wp_menu_handler_.insert(wp_action_menu_handler, "Stop", boost::bind(&WaypointsEditor::actionCb, this, _1)); //8
+        wp_menu_handler_.insert(wp_action_menu_handler, "P2P", boost::bind(&WaypointsEditor::actionCb, this, _1)); //9
+        interactive_markers::MenuHandler::EntryHandle voice_menu_handler = wp_menu_handler_.insert(wp_action_menu_handler, "Speak", boost::bind(&WaypointsEditor::actionCb, this, _1)); //10
 
         //set wav file
-        interactive_markers::MenuHandler::EntryHandle specific_mode = wp_menu_handler_.insert(voice_menu_handler, "MG400", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //15
-        wp_menu_handler_.insert(voice_menu_handler, "CR Series", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //16
-        wp_menu_handler_.insert(voice_menu_handler, "Agile X", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //17
-        wp_menu_handler_.insert(voice_menu_handler, "Unitree Go1", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //18
+        interactive_markers::MenuHandler::EntryHandle specific_mode = wp_menu_handler_.insert(voice_menu_handler, "MG400", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //11
+        wp_menu_handler_.insert(voice_menu_handler, "CR Series", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //12
+        wp_menu_handler_.insert(voice_menu_handler, "Agile X", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //13
+        wp_menu_handler_.insert(voice_menu_handler, "Unitree Go1", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //14
         
     }
 
@@ -151,37 +151,37 @@ public:
             waypoints_.at(wp_num).position.action = "passthrough";
             waypoints_.at(wp_num).position.duration = 0;
             waypoints_.at(wp_num).position.file = "none";
+        // }else if(feedback->menu_entry_id == 7){
+        //     ROS_INFO_STREAM("Look Up");
+        //     waypoints_.at(wp_num).position.action = "lookup";
+        //     waypoints_.at(wp_num).position.duration = 5;
+        //     waypoints_.at(wp_num).position.file = "none";
+        // }else if(feedback->menu_entry_id == 8){
+        //     ROS_INFO_STREAM("Look Down");
+        //     waypoints_.at(wp_num).position.action = "lookdown";
+        //     waypoints_.at(wp_num).position.duration = 5;
+        //     waypoints_.at(wp_num).position.file = "none";
+        // }else if(feedback->menu_entry_id == 9){
+        //     ROS_INFO_STREAM("Look Left");
+        //     waypoints_.at(wp_num).position.action = "lookleft";
+        //     waypoints_.at(wp_num).position.duration = 5;
+        //     waypoints_.at(wp_num).position.file = "none";
+        // }else if(feedback->menu_entry_id == 10){
+        //     ROS_INFO_STREAM("Look Right");
+        //     waypoints_.at(wp_num).position.action = "lookright";
+        //     waypoints_.at(wp_num).position.duration = 5;
+        //     waypoints_.at(wp_num).position.file = "none";
         }else if(feedback->menu_entry_id == 7){
-            ROS_INFO_STREAM("Look Up");
-            waypoints_.at(wp_num).position.action = "lookup";
-            waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "none";
-        }else if(feedback->menu_entry_id == 8){
-            ROS_INFO_STREAM("Look Down");
-            waypoints_.at(wp_num).position.action = "lookdown";
-            waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "none";
-        }else if(feedback->menu_entry_id == 9){
-            ROS_INFO_STREAM("Look Left");
-            waypoints_.at(wp_num).position.action = "lookleft";
-            waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "none";
-        }else if(feedback->menu_entry_id == 10){
-            ROS_INFO_STREAM("Look Right");
-            waypoints_.at(wp_num).position.action = "lookright";
-            waypoints_.at(wp_num).position.duration = 5;
-            waypoints_.at(wp_num).position.file = "none";
-        }else if(feedback->menu_entry_id == 11){
             ROS_INFO_STREAM("Charge");
             waypoints_.at(wp_num).position.action = "charge";
             waypoints_.at(wp_num).position.duration = 5;
             waypoints_.at(wp_num).position.file = "none";
-        }else if(feedback->menu_entry_id == 12){
+        }else if(feedback->menu_entry_id == 8){
             ROS_INFO_STREAM("Stop");
             waypoints_.at(wp_num).position.action = "stop";
             waypoints_.at(wp_num).position.duration = INT_MAX;
             waypoints_.at(wp_num).position.file = "none";
-        }else if(feedback->menu_entry_id == 13){
+        }else if(feedback->menu_entry_id == 9){
             ROS_INFO_STREAM("P2P");
             waypoints_.at(wp_num).position.action = "p2p";
             waypoints_.at(wp_num).position.duration = INT_MAX;
@@ -197,16 +197,16 @@ public:
         int wp_num= std::stoi(feedback->marker_name);
         waypoints_.at(wp_num).position.action = "speak";
         waypoints_.at(wp_num).position.duration = INT_MAX;
-        if(feedback->menu_entry_id == 15){
+        if(feedback->menu_entry_id == 11){
             ROS_INFO_STREAM("MG400");
             waypoints_.at(wp_num).position.file = "mg400";
-        }else if (feedback->menu_entry_id == 16){
+        }else if (feedback->menu_entry_id == 12){
             ROS_INFO_STREAM("CRseries");
             waypoints_.at(wp_num).position.file = "crseries";
-        }else if (feedback->menu_entry_id == 17){
+        }else if (feedback->menu_entry_id == 13){
             ROS_INFO_STREAM("Agile X");
             waypoints_.at(wp_num).position.file = "agilex";
-        }else if (feedback->menu_entry_id == 18){
+        }else if (feedback->menu_entry_id == 14){
             ROS_INFO_STREAM("Unitree Go1");
             waypoints_.at(wp_num).position.file = "unitreego1";
         }

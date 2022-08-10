@@ -221,17 +221,10 @@ public:
         int wp_num = std::stoi(feedback->marker_name);
         waypoints_.erase(waypoints_.begin() + wp_num);
         for (int i=wp_num; i<waypoints_.size(); i++) {
-            orne_waypoints_msgs::Pose wp;
-            wp.position.x = waypoints_.at(i).position.x;
-            wp.position.y = waypoints_.at(i).position.y;
-            wp.position.z = waypoints_.at(i).position.z;
-            wp.position.action = waypoints_.at(i).position.action;
-            wp.position.duration = waypoints_.at(i).position.duration;
-            wp.position.file = waypoints_.at(i).position.file;
-            wp.orientation.x = waypoints_.at(i).orientation.x; 
-            wp.orientation.y = waypoints_.at(i).orientation.y; 
-            wp.orientation.z = waypoints_.at(i).orientation.z; 
-            wp.orientation.w = waypoints_.at(i).orientation.w; 
+            geometry_msgs::Pose p;
+            p.position.x = waypoints_.at(i).position.x;
+            p.position.y = waypoints_.at(i).position.y;
+            p.position.z = waypoints_.at(i).position.z;
             server->setPose(std::to_string(i), wp);
         }
         server->erase(std::to_string((int)waypoints_.size()));

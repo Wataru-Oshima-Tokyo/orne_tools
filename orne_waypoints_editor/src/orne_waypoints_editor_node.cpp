@@ -19,6 +19,10 @@
 #include <string>
 #include <fstream>
 #include <math.h>
+#include <stdio.h>
+#include <dirent.h>
+#include <iostream>
+#include <algorithm>
 
 #ifdef NEW_YAMLCPP
 template<typename T>
@@ -38,10 +42,11 @@ public:
         ros::NodeHandle private_nh("~");
         private_nh.param("world_frame", world_frame_, std::string("map"));
         private_nh.param("robot_frame", robot_frame_, std::string("base_link"));
+        private_nh.param("voice_path", voice_path_, std::string(""));
         private_nh.param("save_joy_button", save_joy_button_, 0);
 
         server.reset(new interactive_markers::InteractiveMarkerServer("waypoints_marker_server", "", false));
-
+        
         initMenu();
 
         ros::NodeHandle nh;
@@ -52,6 +57,7 @@ public:
         save_server_ = nh.advertiseService("save_waypoints", &WaypointsEditor::saveWaypointsCallback, this);
 
         private_nh.param("filename", filename_, filename_);
+        
         if(filename_ != ""){
             ROS_INFO_STREAM("Read waypoints data from " << filename_);
             if(readFile(filename_)) {
@@ -63,11 +69,30 @@ public:
         } else {
             ROS_ERROR("waypoints file doesn't have name");
         }
+        
     }
 
 
     ~WaypointsEditor(){
         server.reset();
+    }
+
+    void readVoiceFiles(){
+        struct dirent *entry = nullptr;
+        DIR *dp = nullptr;
+        std::string delimiter = ".";
+        dp = opendir(voice_path_.c_str());
+        if (dp != nullptr) {
+            while ((entry = readdir(dp))){
+                std::string str = entry->d_name;
+                if (str.find("wav") != std::string::npos){
+                    std::string token = str.substr(0, str.find(delimiter));
+                    voice_names_.push_back(token);
+                }
+            }
+            std::sort(voice_names_.begin(), voice_names_.end());
+        }
+        closedir(dp);
     }
 
     void processFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback ){
@@ -114,6 +139,7 @@ public:
     }
 
     void initMenu(){
+        readVoiceFiles();
         interactive_markers::MenuHandler::EntryHandle wp_delete_menu_handler = wp_menu_handler_.insert("delete", boost::bind(&WaypointsEditor::wpDeleteCb, this, _1)); //3
         interactive_markers::MenuHandler::EntryHandle wp_insert_menu_handler = wp_menu_handler_.insert("Insert");
         interactive_markers::MenuHandler::EntryHandle wp_action_menu_handler = wp_menu_handler_.insert("setAction");
@@ -124,21 +150,18 @@ public:
 
         //set action
         interactive_markers::MenuHandler::EntryHandle action_mode = wp_menu_handler_.insert(wp_action_menu_handler, "Pass Through", boost::bind(&WaypointsEditor::actionCb, this, _1)); //6
-        // wp_menu_handler_.insert(wp_action_menu_handler, "Look Up", boost::bind(&WaypointsEditor::actionCb, this, _1)); //7
-        // wp_menu_handler_.insert(wp_action_menu_handler, "Look Down", boost::bind(&WaypointsEditor::actionCb, this, _1)); //8
-        // wp_menu_handler_.insert(wp_action_menu_handler, "Look Left", boost::bind(&WaypointsEditor::actionCb, this, _1)); //9
-        // wp_menu_handler_.insert(wp_action_menu_handler, "Look Right", boost::bind(&WaypointsEditor::actionCb, this, _1)); //10
         wp_menu_handler_.insert(wp_action_menu_handler, "Charge", boost::bind(&WaypointsEditor::actionCb, this, _1)); //11 ->7
         wp_menu_handler_.insert(wp_action_menu_handler, "Stop", boost::bind(&WaypointsEditor::actionCb, this, _1)); //8
         wp_menu_handler_.insert(wp_action_menu_handler, "P2P", boost::bind(&WaypointsEditor::actionCb, this, _1)); //9
         interactive_markers::MenuHandler::EntryHandle voice_menu_handler = wp_menu_handler_.insert(wp_action_menu_handler, "Speak", boost::bind(&WaypointsEditor::actionCb, this, _1)); //10
 
         //set wav file
-        interactive_markers::MenuHandler::EntryHandle specific_mode = wp_menu_handler_.insert(voice_menu_handler, "MG400", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //11
-        wp_menu_handler_.insert(voice_menu_handler, "CR Series", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //12
-        wp_menu_handler_.insert(voice_menu_handler, "Agile X", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //13
-        wp_menu_handler_.insert(voice_menu_handler, "Unitree Go1", boost::bind(&WaypointsEditor::setExplanation, this, _1)); //14
-        
+        if(!voice_names_.empty()){
+            interactive_markers::MenuHandler::EntryHandle specific_mode = wp_menu_handler_.insert(voice_menu_handler, voice_names_[0], boost::bind(&WaypointsEditor::setExplanation, this, _1)); //11
+            for (int i=1; i<voice_names_.size();i++){
+                wp_menu_handler_.insert(voice_menu_handler, voice_names_[i], boost::bind(&WaypointsEditor::setExplanation, this, _1)); 
+            }
+        }
     }
 
     void actionCb(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback){
@@ -151,26 +174,6 @@ public:
             waypoints_.at(wp_num).position.action = "passthrough";
             waypoints_.at(wp_num).position.duration = 0;
             waypoints_.at(wp_num).position.file = "none";
-        // }else if(feedback->menu_entry_id == 7){
-        //     ROS_INFO_STREAM("Look Up");
-        //     waypoints_.at(wp_num).position.action = "lookup";
-        //     waypoints_.at(wp_num).position.duration = 5;
-        //     waypoints_.at(wp_num).position.file = "none";
-        // }else if(feedback->menu_entry_id == 8){
-        //     ROS_INFO_STREAM("Look Down");
-        //     waypoints_.at(wp_num).position.action = "lookdown";
-        //     waypoints_.at(wp_num).position.duration = 5;
-        //     waypoints_.at(wp_num).position.file = "none";
-        // }else if(feedback->menu_entry_id == 9){
-        //     ROS_INFO_STREAM("Look Left");
-        //     waypoints_.at(wp_num).position.action = "lookleft";
-        //     waypoints_.at(wp_num).position.duration = 5;
-        //     waypoints_.at(wp_num).position.file = "none";
-        // }else if(feedback->menu_entry_id == 10){
-        //     ROS_INFO_STREAM("Look Right");
-        //     waypoints_.at(wp_num).position.action = "lookright";
-        //     waypoints_.at(wp_num).position.duration = 5;
-        //     waypoints_.at(wp_num).position.file = "none";
         }else if(feedback->menu_entry_id == 7){
             ROS_INFO_STREAM("Charge");
             waypoints_.at(wp_num).position.action = "charge";
@@ -197,19 +200,8 @@ public:
         int wp_num= std::stoi(feedback->marker_name);
         waypoints_.at(wp_num).position.action = "speak";
         waypoints_.at(wp_num).position.duration = INT_MAX;
-        if(feedback->menu_entry_id == 11){
-            ROS_INFO_STREAM("MG400");
-            waypoints_.at(wp_num).position.file = "mg400";
-        }else if (feedback->menu_entry_id == 12){
-            ROS_INFO_STREAM("CRseries");
-            waypoints_.at(wp_num).position.file = "crseries";
-        }else if (feedback->menu_entry_id == 13){
-            ROS_INFO_STREAM("Agile X");
-            waypoints_.at(wp_num).position.file = "agilex";
-        }else if (feedback->menu_entry_id == 14){
-            ROS_INFO_STREAM("Unitree Go1");
-            waypoints_.at(wp_num).position.file = "unitreego1";
-        }
+        ROS_INFO_STREAM(voice_names_[feedback->menu_entry_id-11]); //11 is the first index of menu_entry_if for speech
+        waypoints_.at(wp_num).position.file = voice_names_[feedback->menu_entry_id-11];        
         makeWpsInteractiveMarker();
         server->applyChanges();
     }
@@ -225,7 +217,7 @@ public:
             p.position.x = waypoints_.at(i).position.x;
             p.position.y = waypoints_.at(i).position.y;
             p.position.z = waypoints_.at(i).position.z;
-            server->setPose(std::to_string(i), wp);
+            server->setPose(std::to_string(i), p);
         }
         server->erase(std::to_string((int)waypoints_.size()));
         makeWpsInteractiveMarker();
@@ -686,8 +678,9 @@ private:
     std::string filename_;
     std::string world_frame_;
     std::string robot_frame_;
+    std::string voice_path_;
     ros::ServiceServer save_server_;
-
+    std::vector<std::string> voice_names_; 
     bool fp_flag_;
     ros::Rate rate_;
 

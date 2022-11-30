@@ -358,15 +358,15 @@ public:
             marker.color.g = 0.6;
             marker.color.b = 1.0;
             marker.color.a = 0.5;
-        }else if (action=="p2p"){
-            marker.type = Marker::SPHERE;
-            marker.scale.x = 0.5;
-            marker.scale.y = 0.5;
-            marker.scale.z = 0.5;
-            marker.color.r = 0.3;
-            marker.color.g = 0.3;
-            marker.color.b = 0.8;
-            marker.color.a = 0.1;
+        }else if (action=="align"){
+            marker.type = Marker::ARROW;
+            marker.scale.x = 0.7;
+            marker.scale.y = 0.2;
+            marker.scale.z = 0.2;
+            marker.color.r = 0.8;
+            marker.color.g = 0.2;
+            marker.color.b = 0.7;
+            marker.color.a = 0.5;
         } else{
             marker.type = Marker::SPHERE;
             marker.scale.x = 0.5;

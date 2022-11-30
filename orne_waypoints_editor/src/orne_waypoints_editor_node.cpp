@@ -152,7 +152,7 @@ public:
         interactive_markers::MenuHandler::EntryHandle action_mode = wp_menu_handler_.insert(wp_action_menu_handler, "Pass Through", boost::bind(&WaypointsEditor::actionCb, this, _1)); //6
         wp_menu_handler_.insert(wp_action_menu_handler, "Charge", boost::bind(&WaypointsEditor::actionCb, this, _1)); //11 ->7
         wp_menu_handler_.insert(wp_action_menu_handler, "Stop", boost::bind(&WaypointsEditor::actionCb, this, _1)); //8
-        wp_menu_handler_.insert(wp_action_menu_handler, "P2P", boost::bind(&WaypointsEditor::actionCb, this, _1)); //9
+        wp_menu_handler_.insert(wp_action_menu_handler, "Align", boost::bind(&WaypointsEditor::actionCb, this, _1)); //9
         interactive_markers::MenuHandler::EntryHandle voice_menu_handler = wp_menu_handler_.insert(wp_action_menu_handler, "Speak", boost::bind(&WaypointsEditor::actionCb, this, _1)); //10
 
         //set wav file
@@ -185,8 +185,8 @@ public:
             waypoints_.at(wp_num).position.duration = INT_MAX;
             waypoints_.at(wp_num).position.file = "none";
         }else if(feedback->menu_entry_id == 9){
-            ROS_INFO_STREAM("P2P");
-            waypoints_.at(wp_num).position.action = "p2p";
+            ROS_INFO_STREAM("Align");
+            waypoints_.at(wp_num).position.action = "align";
             waypoints_.at(wp_num).position.duration = INT_MAX;
             waypoints_.at(wp_num).position.file = "none";
         }
